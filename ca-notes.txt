@@ -1,0 +1,22 @@
+n players
+each player 4 cards
+pack contains 8n cards
+each card - face value of non-negative int
+ring of player - deck - player -deck ...
+4 cards to each player -> dist to decks
+to win: 4 of same value
+each player picks from top of left -> discard to bottom of right
+only one player wins -> game ends
+each player prefers a certain denomination
+player discards a non-preferred denomination
+
+-------------------------------------------------
+main class - CardGame
+from cmd - number of players, location of valid input pack
+input pack - txt file with 8n rows - each row is a card
+validate pack file
+each player prints their actions to their own file
+deckn_output.txt contains single line detailing contents of deck
+card draw and discard - atomic
+
+
