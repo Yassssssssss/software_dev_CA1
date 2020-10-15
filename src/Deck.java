@@ -2,9 +2,9 @@ import java.util.ArrayList
 
 
 class Deck{
-    private ArrayList<int> cards = new ArrayList<int>();
+    private ArrayList<Integer> cards = new ArrayList<Integer>();
 
-    public ArrayList getCards(){
+    public ArrayList<Integer> getCards(){
         return this.cards;
     }
 
