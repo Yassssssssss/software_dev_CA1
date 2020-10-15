@@ -26,11 +26,11 @@ class CardGame {
     
     private ArrayList<GameObject> generateRing(){
         ArrayList<GameObject> ring = new ArrayList<GameObject>();
-        for(int i = 0; i< this.numPlayers; i++){
+        for(int i=0; i< this.numPlayers; i++){
             Player player = new Player();
-            ring .add(player);
+            ring.add(player);
             Deck deck = new Deck();
-            ring .add(deck);
+            ring.add(deck);
         }
         return ring;
     }
@@ -39,8 +39,8 @@ class CardGame {
     private ArrayList<Integer> generatePack(){
         ArrayList<Integer> packList = new ArrayList<Integer>();
         Random r = new Random();
-        for (int i= 0; i < this.numPlayers*8; i++){
-            int x = r.nextInt(this.numPlayers)+1 ;
+        for (int i=0; i < this.numPlayers*8; i++){
+            int x = r.nextInt(this.numPlayers) + 1;
             packList.add(x);
         }
         return packList;
