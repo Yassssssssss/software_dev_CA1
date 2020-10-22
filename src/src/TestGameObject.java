@@ -4,6 +4,8 @@ import org.junit.Test;
 import org.junit.Ignore;
 
 public class TestGameObject {
+
+    @Test
     public void testAddCard() {
 
     }
