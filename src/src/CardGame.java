@@ -1,10 +1,10 @@
 package src;
 
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Random;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
 
 class CardGame {
     private int numPlayers;
@@ -18,10 +18,6 @@ class CardGame {
         this.gameRing = generateRing();
         this.cardList = readFile(inputs.getFileName());
         this.sc.close();
-    }
-
-    public int getNumPlayers(){
-        return this.numPlayers;
     }
 
     private ArrayList<GameObject> generateRing(){
@@ -61,7 +57,7 @@ class CardGame {
     }
 
     public static void main (String[] args) {
-        CardGame cardGame = new CardGame();
+        CardGame cardGame = new CardGame(new ActualUserInputs());
         
     }
 }
