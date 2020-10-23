@@ -12,31 +12,16 @@ class CardGame {
     private ArrayList<Integer> cardList;
     private Scanner sc;
 
-    public CardGame(){
+    public CardGame(UserInputs inputs){
         this.sc = new Scanner(System.in);
-        this.numPlayers = inputNumPlayers();
+        this.numPlayers = inputs.getNumPlayers();
         this.gameRing = generateRing();
-        this.cardList = readFile(inputCardsFile());
+        this.cardList = readFile(inputs.getFileName());
         this.sc.close();
     }
 
     public int getNumPlayers(){
         return this.numPlayers;
-    }
-
-    private Integer inputNumPlayers() {
-        System.out.println("How many players");
-        Integer numPlayers = sc.nextInt();
-        
-        return numPlayers;
-    }
-
-    private String inputCardsFile() {
-        System.out.println("Give file name");
-
-        String fileName = sc.next();
-        
-        return fileName;
     }
 
     private ArrayList<GameObject> generateRing(){
