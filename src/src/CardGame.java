@@ -8,16 +8,14 @@ import java.util.Scanner;
 
 class CardGame {
     private int numPlayers;
-    private ArrayList<GameObject> gameRing;
+    public  ArrayList<GameObject> gameRing;
     private ArrayList<Integer> cardList;
-    private Scanner sc;
+    
 
     public CardGame(UserInputs inputs){
-        this.sc = new Scanner(System.in);
         this.numPlayers = inputs.getNumPlayers();
         this.gameRing = generateRing();
         this.cardList = readFile(inputs.getFileName());
-        this.sc.close();
     }
 
     private ArrayList<GameObject> generateRing(){
@@ -54,8 +52,21 @@ class CardGame {
         return packList;
     }
 
+    public void dealCards(){
+        for (int i=0; i<cardList.size(); i++){
+            if (i < numPlayers*4){
+                ((Player) gameRing.get((i% numPlayers)*2)).addCard(cardList.get(i));
+            } else {
+                ((Deck) gameRing.get((i% numPlayers)*2+1)).addCard(cardList.get(i));
+            }
+        }  
+    }
+
+
     public static void main (String[] args) {
         CardGame cardGame = new CardGame(new ActualUserInputs());
+        cardGame.dealCards();
+        System.out.println(cardGame.gameRing.toString());
         
     }
 }

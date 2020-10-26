@@ -5,7 +5,8 @@ import java.util.Scanner;
 public class ActualUserInputs implements UserInputs{
     private int numPlayers;
     private String fileName;
-    private Scanner sc;
+    private Scanner sc = new Scanner(System.in);
+    
 
     public ActualUserInputs() {
         this.numPlayers = inputNumPlayers();
