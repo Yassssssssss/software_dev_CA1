@@ -23,10 +23,8 @@ class CardGame {
     private ArrayList<GameObject> generateRing(){
         ArrayList<GameObject> ring = new ArrayList<GameObject>();
         for(int i=0; i< this.numPlayers; i++){
-            Player player = new Player();
-            ring.add(player);
-            Deck deck = new Deck();
-            ring.add(deck);
+            ring.add(new Player());
+            ring.add(new Deck());
         }
         return ring;
     }
