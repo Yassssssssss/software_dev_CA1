@@ -9,10 +9,14 @@ import java.util.Scanner;
 class CardGame {
     private int numPlayers;
     public  ArrayList<GameObject> gameRing;
-    private ArrayList<Integer> cardList;
+    private ArrayList<Card> cardList;
     
-
-    public CardGame(UserInputs inputs){
+    /**
+     * 
+     * @param inputs
+     * 
+     */
+    public CardGame(UserInputsInterface inputs){
         this.numPlayers = inputs.getNumPlayers();
         this.gameRing = generateRing();
         this.cardList = readFile(inputs.getFileName());
@@ -21,19 +25,19 @@ class CardGame {
     private ArrayList<GameObject> generateRing(){
         ArrayList<GameObject> ring = new ArrayList<GameObject>();
         for(int i=0; i< this.numPlayers; i++){
-            ring.add(new Player());
+            ring.add(new Player(i));
             ring.add(new Deck());
         }
         return ring;
     }
 
-    private ArrayList<Integer> readFile(String fileName){
-        ArrayList<Integer> returnPack = new ArrayList<Integer>();
+    private ArrayList<Card> readFile(String fileName){
+        ArrayList<Card> returnPack = new ArrayList<Card>();
         try {
             File file = new File(fileName);
             Scanner sc = new Scanner(file);
             while (sc.hasNextLine()){
-                returnPack.add(Integer.parseInt(sc.nextLine()));
+                returnPack.add(new Card(Integer.parseInt(sc.nextLine())));
             }
             sc.close();
         } catch(FileNotFoundException e) {
@@ -52,7 +56,7 @@ class CardGame {
         return packList;
     }
 
-    public void dealCards(){
+    private void dealCards(){
         for (int i=0; i<cardList.size(); i++){
             if (i < numPlayers*4){
                 ((Player) gameRing.get((i% numPlayers)*2)).addCard(cardList.get(i));
@@ -64,7 +68,7 @@ class CardGame {
 
 
     public static void main (String[] args) {
-        CardGame cardGame = new CardGame(new ActualUserInputs());
+        CardGame cardGame = new CardGame(new UserInputs());
         cardGame.dealCards();
         System.out.println(cardGame.gameRing.toString());
         

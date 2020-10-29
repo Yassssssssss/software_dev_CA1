@@ -3,13 +3,13 @@ package src;
 import java.util.ArrayList;
 
 public class GameObject {
-    private ArrayList<Integer> cards = new ArrayList<Integer>();
+    protected ArrayList<Card> cards = new ArrayList<Card>();
 
-    public ArrayList<Integer> getCards(){
+    public ArrayList<Card> getCards(){
         return this.cards;
     }
 
-    public void addCard(int card) {
+    public void addCard(Card card) {
         cards.add(card);
     }
 }

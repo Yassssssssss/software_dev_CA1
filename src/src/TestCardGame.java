@@ -4,11 +4,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class TestCardGame {
-    private mockUserInputs mockInputs;
+    private MockUserInputs mockInputs;
     
     @Before
-    public void setupTests(){
-        this.mockInputs = new mockUserInputs();
+    public void setup(){
+        this.mockInputs = new MockUserInputs();
         
     }
     

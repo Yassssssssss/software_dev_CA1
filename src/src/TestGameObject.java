@@ -2,9 +2,7 @@ package src;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-
 import java.util.ArrayList;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,7 +11,7 @@ public class TestGameObject {
 
 
     @Before
-    public void gameObjectSetup() {
+    public void setup() {
         
         this.obj = new GameObject();
     }
@@ -23,7 +21,7 @@ public class TestGameObject {
         ArrayList<Integer> expected = new ArrayList<Integer>();
         for (int i=0; i < 10; i++) {
             expected.add(i);
-            this.obj.addCard(i);
+            this.obj.addCard(new Card(i));
         }
         assertEquals(expected, this.obj.getCards());
     }

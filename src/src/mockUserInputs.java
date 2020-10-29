@@ -1,6 +1,7 @@
 package src;
 
-public class mockUserInputs implements UserInputs{
+public class MockUserInputs implements UserInputsInterface{
+
     @Override
     public Integer getNumPlayers() {
         return 3;
@@ -8,7 +9,6 @@ public class mockUserInputs implements UserInputs{
 
     @Override
     public String getFileName() {
-        // TODO Auto-generated method stub
         return "pdeck.txt";
     }
     
