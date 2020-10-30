@@ -21,4 +21,10 @@ public class GameObject {
         }
         return true;
     }
+
+    public void printCards() {
+        ArrayList<Integer> printList = new ArrayList<Integer>();
+        for (Card c: cards) printList.add(c.getValue());
+        System.out.println(printList.toString());
+    }
 }

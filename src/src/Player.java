@@ -2,15 +2,15 @@ package src;
 
 import java.util.Random;
 
-class Player extends GameObject  {
-    private int preference;
+class Player extends GameObject{
+    public int preference;
 
-    public Player(int x){
+    public Player(int p){
         super();
-        this.preference = x;
+        this.preference = p;
     }
 
-    public void makeMove(Deck left, Deck right){
+    public synchronized void makeMove(Deck left, Deck right){
         Random r = new Random();
         cards.add(left.popTop());
         Card c = cards.get(r.nextInt(cards.size()));
@@ -19,5 +19,7 @@ class Player extends GameObject  {
         }
         right.addToBottom(c);
         cards.remove(c);
+        System.out.println("Player: " + Integer.toString(preference) + "::");
+        printCards();
     }
 }
