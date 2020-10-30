@@ -7,8 +7,11 @@ public class Card {
         this.value = x;
     }
 
-
     public int getValue(){
         return value;
+    }
+
+    public boolean isSame(Card card) {
+        return card.getValue() == this.value;
     }
 }
