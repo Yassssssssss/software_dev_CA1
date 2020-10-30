@@ -1,9 +1,6 @@
 package src;
 
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,19 +37,7 @@ public class TestPlayer {
         }
         rightExpected.addToBottom(new Card(3));
         leftExpected.popTop();
-        //assertTrue(leftExpected.equals(leftDeck.getCards()));
-        //assertTrue(rightExpected.equals(rightDeck.getCards()));
-        leftExpected.printCards();
-        System.out.println("NEW DECK START");
-        rightExpected.printCards();
-        System.out.println("NEW DECK START");
-        leftDeck.printCards();
-        System.out.println("NEW DECK START");
-        rightDeck.printCards();
+        assertTrue(leftExpected.isSame(leftDeck));
+        assertTrue(rightExpected.isSame(rightDeck));
     }
-    public static void main(String[] args) {
-        TestPlayer player = new TestPlayer();
-        player.setup();
-        player.testMakeMove();
-    } 
 }

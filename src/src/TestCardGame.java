@@ -17,7 +17,4 @@ public class TestCardGame {
     public void testCardGame(){
         new CardGame(mockInputs);
     }
-
-
-    
 }

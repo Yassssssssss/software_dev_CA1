@@ -12,4 +12,13 @@ public class GameObject {
     public void addCard(Card card) {
         cards.add(card);
     }
+
+    public boolean isSame(GameObject obj) {
+        if (obj.getCards().size() != cards.size()) return false;
+
+        for (int i=0; i<cards.size(); i++) {
+            if (cards.get(i).getValue() != obj.getCards().get(i).getValue()) return false;
+        }
+        return true;
+    }
 }

@@ -1,28 +1,26 @@
 package src;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import java.util.ArrayList;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 
 public class TestGameObject {
-    GameObject obj;
+    GameObject gameObj;
 
 
     @Before
     public void setup() {
-        
-        this.obj = new GameObject();
+        this.gameObj = new GameObject();
     }
 
     @Test
     public void testAddGetCard() {
-        ArrayList<Integer> expected = new ArrayList<Integer>();
+        GameObject expected = new GameObject();
         for (int i=0; i < 10; i++) {
-            expected.add(i);
-            this.obj.addCard(new Card(i));
+            expected.addCard(new Card(i));
+            gameObj.addCard(new Card(i));
         }
-        assertEquals(expected, this.obj.getCards());
+        assertTrue(gameObj.isSame(expected));
     }
 }
