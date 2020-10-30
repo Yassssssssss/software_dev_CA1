@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Set;
 
+//TODO :: Make player win!!
+
 class CardGame {
     private int numPlayers;
     private ArrayList<GameObject> gameRing;
@@ -67,6 +69,7 @@ class CardGame {
         int index = gameRing.indexOf(player);
         Deck leftDeck = (Deck) gameRing.get(index - 1);
         Deck rightDeck = (Deck) gameRing.get((index + 1) % gameRing.size());
+        if (leftDeck.getCards().size() > 0) player.makeMove(leftDeck, rightDeck);
     }
 
     private void startGame() {
