@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Set;
 
-//TODO :: Make player win!!
+//TODO :: end program with player win
+//        write to individual txt files 
+//        player validation
+//        test classes
 
 class CardGame {
     private int numPlayers;
@@ -69,7 +72,7 @@ class CardGame {
         int index = gameRing.indexOf(player);
         Deck leftDeck = (Deck) gameRing.get(index - 1);
         Deck rightDeck = (Deck) gameRing.get((index + 1) % gameRing.size());
-        if (leftDeck.getCards().size() > 0) player.makeMove(leftDeck, rightDeck);
+        if (leftDeck.getCards().size() > 0) this.finished =  player.makeMove(leftDeck, rightDeck);
     }
 
     private void startGame() {
