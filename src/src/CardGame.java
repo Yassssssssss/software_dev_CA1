@@ -2,6 +2,7 @@ package src;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Set;
@@ -15,7 +16,8 @@ class CardGame {
     private int numPlayers;
     private ArrayList<GameObject> gameRing;
     private ArrayList<Card> cardList;
-    private Boolean finished = false;
+    private int winner = -1;
+    private ArrayList<Thread> threads = new ArrayList<Thread>();
 
     public CardGame(UserInputsInterface inputs) {
         this.numPlayers = inputs.getNumPlayers();
@@ -25,8 +27,8 @@ class CardGame {
 
     private ArrayList<GameObject> generateRing() {
         ArrayList<GameObject> ring = new ArrayList<GameObject>();
-        for (int i = 0; i < this.numPlayers; i++) {
-            ring.add(new Deck());
+        for (int i = 1; i < this.numPlayers + 1; i++) {
+            ring.add(new Deck(i));
             ring.add(new Player(i));
         }
         return ring;
@@ -57,7 +59,7 @@ class CardGame {
     // return packList;
     // }
 
-    private void dealCards() {
+    private void dealCards() throws IOException {
         for (int i = 0; i < cardList.size(); i++) {
             if (i < numPlayers * 4) {
                 ((Player) gameRing.get((i % numPlayers) * 2 + 1)).addCard(cardList.get(i));
@@ -65,31 +67,49 @@ class CardGame {
                 ((Deck) gameRing.get((i % numPlayers) * 2)).addCard(cardList.get(i));
             }
         }
+        for (int i = 1; i < gameRing.size(); i += 2) {
+            Player p = (Player) gameRing.get(i);
+            p.writeDeckToFile();
+        }
     }
 
-    private synchronized void makeSingleMove(Player player) {
-        System.out.println(Thread.currentThread().getName());
+    private synchronized void makeSingleMove(Player player) throws IOException {
+        if (winner != -1)
+            return;
         int index = gameRing.indexOf(player);
         Deck leftDeck = (Deck) gameRing.get(index - 1);
         Deck rightDeck = (Deck) gameRing.get((index + 1) % gameRing.size());
-        if (leftDeck.getCards().size() > 0) this.finished =  player.makeMove(leftDeck, rightDeck);
+        if (leftDeck.getCards().size() > 0) {
+            this.winner = player.makeMove(leftDeck, rightDeck);
+            if (this.winner != -1) endGame();
+        }
     }
 
     private void startGame() {
-        for (int i=1; i<gameRing.size(); i+=2) {
+        for (int i = 1; i < gameRing.size(); i += 2) {
             Player p = (Player) gameRing.get(i);
             Thread t = new Thread(new Runnable() {
                 public void run() {
-                    while (!finished) {
-                        makeSingleMove(p);
+                    while (winner == -1) {
+                        try {
+                            makeSingleMove(p);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });
+            threads.add(t);
             t.start();
         }
     }
 
-    public static void main (String[] args) {
+    private void endGame() throws IOException {
+        for (GameObject obj: gameRing) {
+            obj.writeEnd(winner);
+        }
+    }
+    public static void main (String[] args) throws IOException{
         CardGame cardGame = new CardGame(new UserInputs());
         cardGame.dealCards();
         cardGame.startGame();
