@@ -1,7 +1,6 @@
 package src;
 
 import java.io.IOException;
-import java.text.Format;
 import java.util.Random;
 
 class Player extends GameObject{
