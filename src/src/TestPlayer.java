@@ -2,6 +2,8 @@ package src;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,8 +16,8 @@ public class TestPlayer {
     @Before
     public void setup(){
         player = new Player(1);
-        leftDeck = new Deck();
-        rightDeck = new Deck();
+        leftDeck = new Deck(1);
+        rightDeck = new Deck(2);
         for(int i=0; i<4; i++){
             rightDeck.addCard(new Card(3-i));
             leftDeck.addCard(new Card(i));
@@ -27,10 +29,10 @@ public class TestPlayer {
     }
     
     @Test
-    public void testMakeMove(){
+    public void testMakeMove() throws IOException{
         player.makeMove(leftDeck, rightDeck);
-        Deck rightExpected = new Deck();
-        Deck leftExpected = new Deck();
+        Deck rightExpected = new Deck(2);
+        Deck leftExpected = new Deck(1);
         for(int i=0; i<4; i++){
             rightExpected.addCard(new Card(3-i));
             leftExpected.addCard(new Card(i));

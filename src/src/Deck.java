@@ -23,6 +23,7 @@ class Deck extends GameObject {
     }
 
     public void writeEnd(int winner) throws IOException{
+        resetFile();
         writeToFile(String.format("Deck %d contents: %s", num, String.join(" ", cardsToStringList())));
     }
 }
