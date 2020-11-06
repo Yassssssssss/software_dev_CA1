@@ -37,10 +37,14 @@ public class TestPlayer {
             player2.addCard(new Card(2));
         }
         player.addCard(new Card(3));
+        player2.addCard(new Card(2));
     }
     @Test
-    public void testCheckWon(){
-        //TODO
+    public void testCheckWon() throws IOException {
+        Boolean playerWin = player2.checkWon();
+        Boolean playerLoss = player.checkWon();
+        assertEquals(true, playerWin);
+        assertEquals(false, playerLoss);
     }
 
     @Test
@@ -96,7 +100,7 @@ public class TestPlayer {
 
         }
         assertEquals("Player 1 winsPlayer 1 exitsPlayer 1 hand: 1 1 1 3", player1Output);
-        assertEquals("Player 1 has informed player 2 that player 1 has wonPlayer 2 exitsPlayer 2 hand: 2 2 2"
+        assertEquals("Player 1 has informed player 2 that player 1 has wonPlayer 2 exitsPlayer 2 hand: 2 2 2 2"
         , player2Output);
     }
 }
