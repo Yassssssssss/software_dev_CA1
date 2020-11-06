@@ -12,7 +12,6 @@ public class TestCardGame {
         
     }
     
-    
     @Test
     public void testCardGame(){
         new CardGame(mockInputs);

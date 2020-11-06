@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 //TODO :: 
-//        write to individual txt files 
 //        player validation
 //        test classes
 
