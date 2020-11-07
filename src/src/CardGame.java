@@ -41,8 +41,7 @@ class CardGame {
                 validatePackLength(cardList);
                 validFile = true;
             } catch (FileNotFoundException | NumberFormatException | InvalidLengthException e) {
-                System.out.println("Please input a valid file");
-                inputs.inputCardsFile();
+                System.out.println("\nPlease input a valid file\n");
             }
         }
         return cardList;
@@ -86,7 +85,7 @@ class CardGame {
         Deck leftDeck = (Deck) gameRing.get(index - 1);
         Deck rightDeck = (Deck) gameRing.get((index + 1) % gameRing.size());
         if (leftDeck.getCards().size() > 0) {
-            this.winner = player.makeMove(leftDeck, rightDeck);
+            this.winner = player.makeMove(leftDeck, rightDeck, false);
             if (this.winner != -1) endGame();
         }
     }

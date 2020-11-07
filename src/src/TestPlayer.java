@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -12,44 +11,51 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class TestPlayer {
-
     Player player;
-    Player player2;
-    Deck leftDeck;
-    Deck rightDeck;
+
+    /**
+     * Adds 0, 1, 2, 3 to player's hand
+     */
+    private void addFourCards() {
+        for (int i=0; i<4; i++) player.addCard(new Card(i));
+    }
 
     @Before
-    public void setup() throws IOException{
-        FileWriter fileWriter = new FileWriter("Player1_output.txt");
-        FileWriter fileWriter2 = new FileWriter("Player2_output.txt");
-        fileWriter.close();
-        fileWriter2.close();
+    public void setup(){
         player = new Player(1);
-        player2 = new Player(2);
-        leftDeck = new Deck(1);
-        rightDeck = new Deck(2);
-        for(int i=0; i<4; i++){
-            rightDeck.addCard(new Card(3-i));
-            leftDeck.addCard(new Card(i));
-        } 
-        for (int i=0; i<3; i++){
-            player.addCard(new Card(1));
-            player2.addCard(new Card(2));
-        }
-        player.addCard(new Card(3));
-        player2.addCard(new Card(2));
-    }
-    @Test
-    public void testCheckWon() throws IOException {
-        Boolean playerWin = player2.checkWon();
-        Boolean playerLoss = player.checkWon();
-        assertEquals(true, playerWin);
-        assertEquals(false, playerLoss);
     }
 
+    
+    /** 
+     * @throws IOException
+     */
+    @Test
+    public void testCheckWon() throws IOException {
+        for (int i=0; i<4; i++) player.addCard(new Card(1));
+        assertEquals(true, player.checkWon());
+        addFourCards();
+        assertEquals(false, player.checkWon());
+    }
+
+    
+    /** 
+     * @throws IOException
+     */
     @Test
     public void testMakeMove() throws IOException{
-        player.makeMove(leftDeck, rightDeck);
+        // Creating left and right decks to the player
+        // Left deck contains 0, 1, 2, 3
+        // Right deck contains 3, 2, 1, 0
+        // player contains 1, 1, 1, 1 so movement is predictable
+        Deck actualLeftDeck = new Deck(1);
+        Deck actualRightDeck = new Deck(2);
+        for(int i=0; i<4; i++){
+            actualRightDeck.addCard(new Card(3-i));
+            actualLeftDeck.addCard(new Card(i));
+            player.addCard(new Card(1));
+        }
+
+        // Creating expected left and right decks
         Deck rightExpected = new Deck(2);
         Deck leftExpected = new Deck(1);
         for(int i=0; i<4; i++){
@@ -58,12 +64,24 @@ public class TestPlayer {
         }
         rightExpected.addToBottom(new Card(3));
         leftExpected.popTop();
-        assertTrue(leftExpected.isSame(leftDeck));
-        assertTrue(rightExpected.isSame(rightDeck));
+
+        // Creating expected player
+        Player expectedPlayer = new Player(1);
+        for (int i=0; i<4; i++) expectedPlayer.addCard(new Card(1));
+
+        assertEquals(1, player.makeMove(actualLeftDeck, actualRightDeck, false));
+        
+        // Bypass checking if player won.
+        player.makeMove(actualLeftDeck, actualRightDeck, true);
+        assertTrue(expectedPlayer.isSame(player));
+        assertTrue(leftExpected.isSame(actualLeftDeck));
+        assertTrue(rightExpected.isSame(actualRightDeck));
+
     }
 
     @Test
     public void testWriteDeckToFile(){
+        addFourCards();
         String data = "";
         try {
             player.writeDeckToFile();
@@ -72,36 +90,49 @@ public class TestPlayer {
             data = reader.nextLine();
             reader.close();
         } catch (IOException e){
+            System.out.println(e.getStackTrace());
         }
-        assertEquals("Player 1 Initial hand: 1 1 1 3", data);
+        assertEquals("Player 1 Initial hand: 0 1 2 3", data);
     }
 
+    
+    /** 
+     * @throws IOException
+     */
     @Test
     public void testWriteEnd() throws IOException {
-        
-        String player1Output = "";
-        String player2Output = "";
+        // Winning case (Actual hands doesn't matter)
+        addFourCards();
+        String data = "";
         try {
+            player.resetFile();
             player.writeEnd(1);
-            player2.writeEnd(1);
             File file = new File("Player1_output.txt");
             Scanner reader = new Scanner(file);
             while (reader.hasNextLine()) {
-                player1Output += reader.nextLine();
-              }
+                data += reader.nextLine();
+            }
             reader.close();
-            File file2 = new File("Player2_output.txt");
-            Scanner reader2 = new Scanner(file2);
-            while (reader2.hasNextLine()) {
-                player2Output += reader2.nextLine();
-              }
-            reader2.close();
+            assertEquals("Player 1 winsPlayer 1 exitsPlayer 1 hand: 0 1 2 3", data);
         } catch (IOException e){
-
+            System.out.println(e.getStackTrace());
         }
-        assertEquals("Player 1 winsPlayer 1 exitsPlayer 1 hand: 1 1 1 3", player1Output);
-        assertEquals("Player 1 has informed player 2 that player 1 has wonPlayer 2 exitsPlayer 2 hand: 2 2 2 2"
-        , player2Output);
+        
+        // Losing case
+        try {
+            player.resetFile();
+            player.writeEnd(2);
+            File file = new File("Player1_output.txt");
+            Scanner reader = new Scanner(file);
+            data = "";
+            while (reader.hasNextLine()) {
+                data += reader.nextLine();
+            }
+            reader.close();
+            assertEquals("Player 2 has informed player 1 that player 2 has wonPlayer 1 exitsPlayer 1 hand: 0 1 2 3", data);
+        } catch (IOException e){
+            System.out.println(e.getStackTrace());
+        }    
     }
 }
 

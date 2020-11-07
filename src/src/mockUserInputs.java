@@ -13,11 +13,6 @@ public class MockUserInputs implements UserInputsInterface{
     }
 
     @Override
-    public String inputCardsFile() {
-        return this.getFileName();
-    }
-
-    @Override
     public void closeScanner() {}
     
 }

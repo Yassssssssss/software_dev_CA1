@@ -2,40 +2,32 @@ package src;
 
 import java.util.Scanner;
 
+/**
+ * Asks the user to input number of players and the file name.
+ */
 public class UserInputs implements UserInputsInterface{
-    private int numPlayers;
-    private String fileName;
     private Scanner sc = new Scanner(System.in);
-    
 
-    public UserInputs() {
-        this.numPlayers = inputNumPlayers();
-        this.fileName = inputCardsFile();
-    }
-
-    private Integer inputNumPlayers() throws NumberFormatException {
+    @Override
+    public Integer getNumPlayers() throws NumberFormatException {
         System.out.println("How many players");
         return sc.nextInt();
     }
 
-    public String inputCardsFile() {
+    @Override
+    public String getFileName() {
         System.out.println("Give file name");
         String returnstr = sc.next();
         return returnstr;
     }
 
-    @Override
-    public Integer getNumPlayers() {
-        return this.numPlayers;
-    }
-
-    @Override
-    public String getFileName() {
-        return this.fileName;
-    }
-
+    /**
+     * Since the user determines when the scanner needs to be closed,
+     * closing the scanner is done publicly.
+     */
     @Override
     public void closeScanner() {
         this.sc.close();
     }
+
 }
