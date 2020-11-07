@@ -11,5 +11,13 @@ public class MockUserInputs implements UserInputsInterface{
     public String getFileName() {
         return "pdeck.txt";
     }
+
+    @Override
+    public String inputCardsFile() {
+        return this.getFileName();
+    }
+
+    @Override
+    public void closeScanner() {}
     
 }

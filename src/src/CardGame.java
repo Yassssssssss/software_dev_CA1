@@ -4,11 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
-//TODO :: 
-//        player validation
-//        test classes
 
 class CardGame {
     private int numPlayers;
@@ -20,7 +18,8 @@ class CardGame {
     public CardGame(UserInputsInterface inputs) {
         this.numPlayers = inputs.getNumPlayers();
         this.gameRing = generateRing();
-        this.cardList = readFile(inputs.getFileName());
+        this.cardList = getPackFromFile(inputs);
+        inputs.closeScanner();
     }
 
     private ArrayList<GameObject> generateRing() {
@@ -32,30 +31,39 @@ class CardGame {
         return ring;
     }
 
-    private ArrayList<Card> readFile(String fileName) {
-        ArrayList<Card> returnPack = new ArrayList<Card>();
-        try {
-            File file = new File(fileName);
-            Scanner sc = new Scanner(file);
-            while (sc.hasNextLine()) {
-                returnPack.add(new Card(Integer.parseInt(sc.nextLine())));
+    private ArrayList<Card> getPackFromFile(UserInputsInterface inputs) {
+        Boolean validFile = false;
+        String fileName;
+        while (!validFile) {
+            fileName = inputs.getFileName();
+            try {
+                cardList = readFile(fileName);
+                validatePackLength(cardList);
+                validFile = true;
+            } catch (FileNotFoundException | NumberFormatException | InvalidLengthException e) {
+                System.out.println("Please input a valid file");
+                inputs.inputCardsFile();
             }
-            sc.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found!");
         }
+        return cardList;
+    }
+
+    private ArrayList<Card> readFile(String fileName) throws FileNotFoundException, NumberFormatException{
+        ArrayList<Card> returnPack = new ArrayList<Card>();
+        File file = new File(fileName);
+        Scanner sc = new Scanner(file);
+        while (sc.hasNextLine()) {
+            returnPack.add(new Card(Integer.parseInt(sc.nextLine())));
+        }
+        sc.close();
         return returnPack;
     }
 
-    // private ArrayList<Integer> generatePack(){
-    // ArrayList<Integer> packList = new ArrayList<Integer>();
-    // Random r = new Random();
-    // for (int i=0; i < this.numPlayers*8; i++){
-    // int x = r.nextInt(this.numPlayers) + 1;
-    // packList.add(x);
-    // }
-    // return packList;
-    // }
+    private void validatePackLength(ArrayList<Card> pack) throws InvalidLengthException{
+        if (pack.size() != numPlayers * 8) {
+            throw new InvalidLengthException(String.format("Pack length should be %d but is %d.", numPlayers, pack.size()));
+        }
+    }
 
     private void dealCards() throws IOException {
         for (int i = 0; i < cardList.size(); i++) {
@@ -107,6 +115,17 @@ class CardGame {
             obj.writeEnd(winner);
         }
     }
+
+    public static ArrayList<Integer> generatePack(int numPlayers){
+        ArrayList<Integer> packList = new ArrayList<Integer>();
+        Random r = new Random();
+        for (int i=0; i < numPlayers*8; i++){
+            int x = r.nextInt(numPlayers) + 1;
+            packList.add(x);
+        }
+        return packList;
+    }
+    
     public static void main (String[] args) throws IOException{
         CardGame cardGame = new CardGame(new UserInputs());
         cardGame.dealCards();
