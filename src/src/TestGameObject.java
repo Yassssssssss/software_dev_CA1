@@ -7,7 +7,7 @@ public class TestGameObject {
 
     @Before
     public void setup() {
-        gameObj = new ConcreteGameObj()
+        gameObj = new ConcreteGameObj();
     }
 
 

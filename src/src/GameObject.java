@@ -58,7 +58,7 @@ public abstract class GameObject {
         return printList;
     }
 
-    
+
     /** 
      * Wipes file.
      * @throws IOException - Thrown by FileWriter
@@ -68,7 +68,7 @@ public abstract class GameObject {
         fileWriter.close();
     }
 
-    
+
     /** 
      * Writes a message to the file for this object
      * 
@@ -83,6 +83,7 @@ public abstract class GameObject {
         fileWriter.close();
     }
 
+
     /** 
      * Getter for the cards
      * 
@@ -92,6 +93,7 @@ public abstract class GameObject {
         return this.cards;
     }
 
+    
     /**
      * Function to write the necessary message for the end of game.
      */

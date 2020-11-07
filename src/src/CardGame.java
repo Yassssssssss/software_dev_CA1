@@ -7,7 +7,15 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-
+/**
+ * Implements all the attributes and methods shared by Deck and Player
+ * 
+ * Attributes:
+ * gamering - the ArrayList of GameObject
+ * cardList - the ArrayList of Cards
+ * winner - the variable which decides the winner
+ * threads - the ArrayList of threads
+ */
 class CardGame {
     private int numPlayers;
     private ArrayList<GameObject> gameRing;
@@ -15,6 +23,16 @@ class CardGame {
     private int winner = -1;
     private ArrayList<Thread> threads = new ArrayList<Thread>();
 
+    
+    /**
+     * 
+     * TODO
+     * 
+     * 
+     * 
+     * 
+     * 
+     */
     public CardGame(UserInputsInterface inputs) {
         this.numPlayers = inputs.getNumPlayers();
         this.gameRing = generateRing();
@@ -22,6 +40,13 @@ class CardGame {
         inputs.closeScanner();
     }
 
+
+    /**
+     * Generates the ring of players and decks according to the number of players 
+     * 
+     * @return ArrayList<GameObject> - A list which contains an ArrayList of all Player and Deck
+     * classes in play
+     */
     private ArrayList<GameObject> generateRing() {
         ArrayList<GameObject> ring = new ArrayList<GameObject>();
         for (int i = 1; i < this.numPlayers + 1; i++) {
@@ -31,6 +56,13 @@ class CardGame {
         return ring;
     }
 
+
+    /**
+     * TODO
+     * 
+     * @param inputs
+     * @return ArrayList<Card> - A list of Cards
+     */
     private ArrayList<Card> getPackFromFile(UserInputsInterface inputs) {
         Boolean validFile = false;
         String fileName;
@@ -47,6 +79,15 @@ class CardGame {
         return cardList;
     }
 
+
+    /**
+     * Reads the file fileName and adds a Card with that number
+     * 
+     * @param fileName - the name of the .txt file full of numbers to read
+     * @return ArrayList<Card> - 
+     * @throws FileNotFoundException - Thrown by File
+     * @throws NumberFormatException
+     */
     private ArrayList<Card> readFile(String fileName) throws FileNotFoundException, NumberFormatException{
         ArrayList<Card> returnPack = new ArrayList<Card>();
         File file = new File(fileName);
@@ -58,12 +99,25 @@ class CardGame {
         return returnPack;
     }
 
+
+    /**
+     * TODO
+     * 
+     * @param pack - 
+     * @throws InvalidLengthException
+     */
     private void validatePackLength(ArrayList<Card> pack) throws InvalidLengthException{
         if (pack.size() != numPlayers * 8) {
             throw new InvalidLengthException(String.format("Pack length should be %d but is %d.", numPlayers, pack.size()));
         }
     }
 
+
+    /**
+     * Deals 4 cards to Player classes and rest to Deck classes
+     * 
+     * @throws IOException - Thrown by writeDeckToFile()
+     */
     private void dealCards() throws IOException {
         for (int i = 0; i < cardList.size(); i++) {
             if (i < numPlayers * 4) {
@@ -78,6 +132,13 @@ class CardGame {
         }
     }
 
+
+    /**
+     * Method for making a single move for each player in gameRing
+     * 
+     * @param player - the player who is making the move
+     * @throws IOException - Thrown by endGame()
+     */
     private synchronized void makeSingleMove(Player player) throws IOException {
         if (winner != -1)
             return;
@@ -90,6 +151,10 @@ class CardGame {
         }
     }
 
+
+    /**
+     * Starts the game by making and starting the threads
+     */
     private void startGame() {
         for (int i = 1; i < gameRing.size(); i += 2) {
             Player p = (Player) gameRing.get(i);
@@ -109,12 +174,23 @@ class CardGame {
         }
     }
 
+
+    /**
+     * Tests all GameObjects if == winner
+     * 
+     * @throws IOException - Thrown by writeEnd()
+     */
     private void endGame() throws IOException {
         for (GameObject obj: gameRing) {
             obj.writeEnd(winner);
         }
     }
 
+    /**
+     * TODO
+     * @param numPlayers
+     * @return ArrayList<Integer> - 
+     */
     public static ArrayList<Integer> generatePack(int numPlayers){
         ArrayList<Integer> packList = new ArrayList<Integer>();
         Random r = new Random();
@@ -124,6 +200,7 @@ class CardGame {
         }
         return packList;
     }
+
     
     public static void main (String[] args) throws IOException{
         CardGame cardGame = new CardGame(new UserInputs());
