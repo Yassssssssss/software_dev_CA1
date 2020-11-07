@@ -1,1 +1,1 @@
-Deck 1 contents: 1 1 1 1
+Deck 1 contents: 0 1 2 3

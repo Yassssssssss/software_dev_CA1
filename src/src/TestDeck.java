@@ -10,6 +10,8 @@ import java.util.Scanner;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.lang.IndexOutOfBoundsException;
+
 public class TestDeck {
     private Deck deck;
 
@@ -19,11 +21,13 @@ public class TestDeck {
         for (int i=0; i<4; i++) deck.addCard(new Card(i));
     }
 
-    @Test
+    @Test(expected = IndexOutOfBoundsException.class)
     public void testPopTop() {
         assertTrue(new Card(3).isSame(deck.popTop()));
-        Deck expected = new Deck(1);
-        for (int i=0; i<3; i++) expected.addCard(new Card(i));
+        assertTrue(new Card(2).isSame(deck.popTop()));
+        assertTrue(new Card(1).isSame(deck.popTop()));
+        assertTrue(new Card(0).isSame(deck.popTop()));
+        assertTrue(new Card(0).isSame(deck.popTop()));
     }
 
     @Test
@@ -33,10 +37,6 @@ public class TestDeck {
         for (int i=0; i<4; i++) expected.addCard(new Card(i));
         expected.addToBottom(new Card(4));
         assertTrue(expected.isSame(deck));
-    }
-    @Test
-    public void testGetNumber(){
-        assertEquals(1,deck.getNumber());
     }
 
     @Test
@@ -48,9 +48,9 @@ public class TestDeck {
             Scanner reader = new Scanner(file);
             data = reader.nextLine();
             reader.close();
+            assertEquals("Deck 1 contents: 0 1 2 3", data);
         } catch (IOException e){
-
+            System.out.println(e.getStackTrace());
         }
-        assertEquals("Deck 1 contents: 0 1 2 3", data);
     }
 }
