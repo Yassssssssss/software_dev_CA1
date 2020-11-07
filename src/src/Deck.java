@@ -52,7 +52,7 @@ class Deck extends GameObject {
      * Writes the message that needs to be written at end to file
      * 
      * @param winner - The player number of player that won
-     * @throws IOException - Thrown by writeToFile function
+     * @throws IOException - Thrown by writeToFile function and resetFile
      */
     public void writeEnd(int winner) throws IOException{
         resetFile();

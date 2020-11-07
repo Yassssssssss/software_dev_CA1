@@ -81,7 +81,7 @@ class Player extends GameObject{
     /** 
      * Writes the initial hand to file
      * 
-     * @throws IOException - Thrown by writeToFile function
+     * @throws IOException - Thrown by writeToFile function and resetFile
      */
     public void writeDeckToFile() throws IOException{
         resetFile();

@@ -11,6 +11,12 @@ public class Card {
         return value;
     }
 
+    /**
+     * Checks if a card has the same value as this card
+     * 
+     * @param card - Card to compare with
+     * @return - true if same, false if not.
+     */
     public boolean isSame(Card card) {
         return card.getValue() == this.value;
     }
