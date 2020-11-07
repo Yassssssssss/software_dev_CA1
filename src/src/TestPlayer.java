@@ -3,9 +3,7 @@ package src;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,11 +24,8 @@ public class TestPlayer {
     }
 
     
-    /** 
-     * @throws IOException
-     */
     @Test
-    public void testCheckWon() throws IOException {
+    public void testCheckWon() {
         for (int i=0; i<4; i++) player.addCard(new Card(1));
         assertEquals(true, player.checkWon());
         addFourCards();
@@ -38,11 +33,8 @@ public class TestPlayer {
     }
 
     
-    /** 
-     * @throws IOException
-     */
     @Test
-    public void testMakeMove() throws IOException{
+    public void testMakeMove() {
         // Creating left and right decks to the player
         // Left deck contains 0, 1, 2, 3
         // Right deck contains 3, 2, 1, 0
@@ -69,29 +61,35 @@ public class TestPlayer {
         Player expectedPlayer = new Player(1);
         for (int i=0; i<4; i++) expectedPlayer.addCard(new Card(1));
 
-        assertEquals(1, player.makeMove(actualLeftDeck, actualRightDeck, false));
+        int result = 0;
+        try {
+            result = player.makeMove(actualLeftDeck, actualRightDeck, false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        assertEquals(1, result);
         
         // Bypass checking if player won.
-        player.makeMove(actualLeftDeck, actualRightDeck, true);
+        try {
+            player.makeMove(actualLeftDeck, actualRightDeck, true);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
         assertTrue(expectedPlayer.isSame(player));
         assertTrue(leftExpected.isSame(actualLeftDeck));
         assertTrue(rightExpected.isSame(actualRightDeck));
-
     }
 
     @Test
     public void testWriteDeckToFile(){
         addFourCards();
-        String data = "";
         try {
             player.writeDeckToFile();
-            File file = new File("Player1_output.txt");
-            Scanner reader = new Scanner(file);
-            data = reader.nextLine();
-            reader.close();
-        } catch (IOException e){
-            System.out.println(e.getStackTrace());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        String data = TestSuite.readFromFile("Player1_output.txt");
         assertEquals("Player 1 Initial hand: 0 1 2 3", data);
     }
 
@@ -100,39 +98,27 @@ public class TestPlayer {
      * @throws IOException
      */
     @Test
-    public void testWriteEnd() throws IOException {
+    public void testWriteEnd() {
         // Winning case (Actual hands doesn't matter)
         addFourCards();
-        String data = "";
         try {
             player.resetFile();
             player.writeEnd(1);
-            File file = new File("Player1_output.txt");
-            Scanner reader = new Scanner(file);
-            while (reader.hasNextLine()) {
-                data += reader.nextLine();
-            }
-            reader.close();
-            assertEquals("Player 1 winsPlayer 1 exitsPlayer 1 hand: 0 1 2 3", data);
-        } catch (IOException e){
-            System.out.println(e.getStackTrace());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        String data = TestSuite.readFromFile("Player1_output.txt");
+        assertEquals("Player 1 winsPlayer 1 exitsPlayer 1 hand: 0 1 2 3", data);
         
         // Losing case
         try {
             player.resetFile();
             player.writeEnd(2);
-            File file = new File("Player1_output.txt");
-            Scanner reader = new Scanner(file);
-            data = "";
-            while (reader.hasNextLine()) {
-                data += reader.nextLine();
-            }
-            reader.close();
-            assertEquals("Player 2 has informed player 1 that player 2 has wonPlayer 1 exitsPlayer 1 hand: 0 1 2 3", data);
-        } catch (IOException e){
-            System.out.println(e.getStackTrace());
-        }    
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        data = TestSuite.readFromFile("Player1_output.txt");
+        assertEquals("Player 2 has informed player 1 that player 2 has wonPlayer 1 exitsPlayer 1 hand: 0 1 2 3", data);
     }
 }
 

@@ -3,9 +3,7 @@ package src;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -41,16 +39,13 @@ public class TestDeck {
 
     @Test
     public void testWriteEnd() {
-        String data = "";
         try {
             deck.writeEnd(1);
-            File file = new File("Deck1_output.txt");
-            Scanner reader = new Scanner(file);
-            data = reader.nextLine();
-            reader.close();
-            assertEquals("Deck 1 contents: 0 1 2 3", data);
         } catch (IOException e){
-            System.out.println(e.getStackTrace());
+            e.printStackTrace();
         }
+
+        String data = TestSuite.readFromFile("Deck1_output.txt");
+        assertEquals("Deck 1 contents: 0 1 2 3", data);
     }
 }

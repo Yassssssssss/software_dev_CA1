@@ -4,8 +4,12 @@ import java.io.IOException;
 
 public class ConcreteGameObj extends GameObject {
 
+    public ConcreteGameObj () {
+        this.fileName = "test.txt";
+    }
+
     @Override
-    void writeEnd(int winner) throws IOException {
+    public void writeEnd(int winner) throws IOException {
         // This function is tested in the subclasses so
         // no need to test
     }

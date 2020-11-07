@@ -72,7 +72,7 @@ class Player extends GameObject{
                                        preference, discardCard.getValue(), right.getNumber(),
                                        preference, String.join(" ", cardsToStringList()));
 
-        System.out.println(message);
+        //System.out.println(message);
         writeToFile(message);
         return -1;
     }
