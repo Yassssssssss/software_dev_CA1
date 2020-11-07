@@ -11,7 +11,9 @@ public class UserInputs implements UserInputsInterface{
     @Override
     public Integer getNumPlayers() throws NumberFormatException {
         System.out.println("How many players");
-        return sc.nextInt();
+        int num = sc.nextInt();
+        if (num <= 0) throw new NumberFormatException("Player number has to be positive");
+        return num;
     }
 
     @Override
