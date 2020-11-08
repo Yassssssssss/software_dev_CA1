@@ -28,12 +28,11 @@ public class UserInputs implements UserInputsInterface{
             try {
                 num = sc.nextInt();
                 validNumber = num > 0 && num < 2147483647/8;
-            } catch(NoSuchElementException e) {
-                sc.next();
-            }
+            } catch(NoSuchElementException e) {sc.next();}
             if (!validNumber) System.out.println("Please input a valid player number");
             if (testing) break;
         }
+        sc.nextLine();
         return num;
     }
 
@@ -53,11 +52,14 @@ public class UserInputs implements UserInputsInterface{
         while (!validFile) {
             try {
                 System.out.println("Give file name");
-                String fileName = sc.next();
+                String fileName = sc.nextLine();
+                System.out.println(fileName);
                 cardList = readFile(fileName);
                 validFile = cardList.size() == numPlayers * 8;
             } catch (FileNotFoundException | NumberFormatException | NoSuchElementException e) {}
-            if (!validFile) System.out.println("Please input a valid file");
+            if (!validFile) {
+                System.out.println("Please input a valid file");
+            }
             if (testing) break;
         }
         return cardList;

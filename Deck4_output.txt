@@ -1,1 +1,1 @@
-Deck 4 contents: 
+Deck 4 contents: 4 5 2 1

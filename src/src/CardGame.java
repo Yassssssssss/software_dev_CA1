@@ -38,6 +38,7 @@ class CardGame {
      * Generates the ring of decks and players according to the number of players.
      * The list contains alternating Deck and Player objects. The list is treated as a 
      * circular list in the rest of the program.
+     * Time complexity O(n).
      * 
      * @return ArrayList<GameObject> - List of Deck and Player objects.
      */
@@ -72,7 +73,8 @@ class CardGame {
     }
 
     /**
-     * Function to write all players' initial hand to their files
+     * Function to write all players' initial hand to their files.
+     * Time Complexity O(n).
      */
     private void writeInitialHand() throws IOException {
         for (int i = 1; i < gameRing.size(); i += 2) {
@@ -153,7 +155,7 @@ class CardGame {
             FileWriter fileWriter = new FileWriter(fileName);
             PrintWriter printWriter = new PrintWriter(fileWriter);
             for (int i=0; i < numPlayers*8; i++){
-                int x = r.nextInt(numPlayers*2) + 1;
+                int x = r.nextInt(numPlayers+1) + 1;
                 printWriter.printf(Integer.toString(x) + "\n");
             }
             printWriter.close();
@@ -168,5 +170,7 @@ class CardGame {
         CardGame cardGame = new CardGame(new UserInputs());
         cardGame.dealCards();
         cardGame.startGame();
+
+        generatePackFile(5, "5 players.txt");
     }
 }

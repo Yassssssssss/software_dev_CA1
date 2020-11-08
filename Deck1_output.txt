@@ -1,1 +1,1 @@
-Deck 1 contents: 1 1 7 5 8 7
+Deck 1 contents: 6 3 2 6
