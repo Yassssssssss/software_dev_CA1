@@ -31,7 +31,7 @@ public class UserInputs implements UserInputsInterface{
             } catch(NoSuchElementException e) {
                 sc.next();
             }
-            System.out.println("Please input a valid player number");
+            if (!validNumber) System.out.println("Please input a valid player number");
             if (testing) break;
         }
         return num;
@@ -57,7 +57,7 @@ public class UserInputs implements UserInputsInterface{
                 cardList = readFile(fileName);
                 validFile = cardList.size() == numPlayers * 8;
             } catch (FileNotFoundException | NumberFormatException | NoSuchElementException e) {}
-            System.out.println("Please input a valid file");
+            if (!validFile) System.out.println("Please input a valid file");
             if (testing) break;
         }
         return cardList;
