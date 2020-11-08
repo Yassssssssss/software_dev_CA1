@@ -1,1 +1,4 @@
 Player 2 Initial hand: 2 2 2 2
+Player 1 has informed player 2 that player 1 has won
+Player 2 exits
+Player 2 hand: 2 2 2 2

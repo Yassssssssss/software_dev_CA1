@@ -18,12 +18,13 @@ import org.junit.Test;
 
 public class CardGameTest {
     private final MockUserInputs validMockInputs = new MockUserInputs(4, "4players_p1win.txt");
-    private CardGame cardGame = new CardGame(validMockInputs);
+    private CardGame cardGame;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
     @Before
-    public void setUpStreams() {
+    public void setUp() {
+        cardGame = new CardGame(validMockInputs);
         System.setOut(new PrintStream(outContent));
     }
 
@@ -151,5 +152,58 @@ public class CardGameTest {
                 assertEquals(num, c.getValue());
             }
         }
-     }
+    }
+
+    @Test
+    public void testMakeSingleMove()
+            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException,
+            SecurityException, NoSuchMethodException {
+        Method makeSingleMove = CardGame.class.getDeclaredMethod("makeSingleMove", Player.class);
+        makeSingleMove.setAccessible(true);
+
+        CardGame testCardGame = new CardGame(new MockUserInputs(4, "4players.txt"));
+
+        Method dealCards = CardGame.class.getDeclaredMethod("dealCards");
+        dealCards.setAccessible(true);
+        dealCards.invoke(testCardGame);
+
+        Field gameRingField = CardGame.class.getDeclaredField("gameRing");
+        gameRingField.setAccessible(true);
+        ArrayList<GameObject> gameRing = (ArrayList<GameObject>) gameRingField.get(testCardGame);
+        
+        makeSingleMove.invoke(testCardGame, (Player) gameRing.get(1));
+
+        Deck expectedLeft = new Deck(1);
+        expectedLeft.addCard(new Card(6));
+        expectedLeft.addCard(new Card(5));
+        expectedLeft.addCard(new Card(5));
+
+        Player expectedPlayer = new Player(1);
+        expectedPlayer.addCard(new Card(8));
+        expectedPlayer.addCard(new Card(4));
+        expectedPlayer.addCard(new Card(8));
+        expectedPlayer.addCard(new Card(6));
+
+        Deck expectedRight = new Deck(2);
+        expectedRight.addCard(new Card(3));
+        expectedRight.addCard(new Card(2));
+        expectedRight.addCard(new Card(1));
+        expectedRight.addCard(new Card(5));
+        expectedRight.addCard(new Card(7));
+        
+        assertTrue(String.format("Left Deck failed. Expected %s but got %s", expectedLeft.cardsToStringList().toString(), gameRing.get(0).cardsToStringList().toString()),
+                   gameRing.get(0).isSame(expectedLeft));
+        assertTrue(String.format("Player failed. Expected %s but got %s", expectedPlayer.cardsToStringList().toString(), gameRing.get(1).cardsToStringList().toString()),
+                   gameRing.get(1).isSame(expectedPlayer));
+        assertTrue(String.format("Right deck failed. Expected %s but got %s", expectedRight.cardsToStringList().toString(), gameRing.get(2).cardsToStringList().toString()),
+                   gameRing.get(2).isSame(expectedRight));
+
+        ArrayList<GameObject> gameRing2 = (ArrayList<GameObject>) gameRingField.get(cardGame);
+        dealCards.invoke(cardGame);
+        makeSingleMove.invoke(cardGame, (Player) gameRing2.get(1));
+        Field winner = CardGame.class.getDeclaredField("winner");
+        winner.setAccessible(true);
+        assertEquals(1, winner.get(cardGame));
+    }
+
 }

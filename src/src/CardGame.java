@@ -179,8 +179,7 @@ class CardGame {
      * @throws IOException - Thrown by endGame()
      */
     private synchronized void makeSingleMove(Player player) throws IOException {
-        if (winner != -1) // Check no one has has after this method got scheduled.
-            return;
+        if (winner != -1) return;// Check no one has has after this method got scheduled.
         int index = gameRing.indexOf(player);
         Deck leftDeck = (Deck) gameRing.get(index - 1);
         Deck rightDeck = (Deck) gameRing.get((index + 1) % gameRing.size());
@@ -256,10 +255,5 @@ class CardGame {
         CardGame cardGame = new CardGame(new UserInputs());
         cardGame.dealCards();
         cardGame.startGame();
-
-        // for (int i=1; i <= 10; i++) {
-        //     CardGame.generatePackFile(i, String.format("%dplayers.txt", i));
-        // }
-        // CardGame.generatePackFile(2000, String.format("2000players.txt"));
     }
 }
