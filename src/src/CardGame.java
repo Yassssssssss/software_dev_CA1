@@ -217,7 +217,7 @@ class CardGame {
 
     /**
      * Tell all decks and players that the game has finished,
-     * making them write to their repective files their final lines.
+     * making them write to their respective files their final lines.
      */
     private void endGame() {
         for (GameObject obj: gameRing) {
