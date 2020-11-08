@@ -2,10 +2,12 @@ package src;
 
 
 public class MockUserWithException implements UserInputsInterface{
-    public Integer getNumPlayers() {
+    @Override
+    public int getNumPlayers() {
         throw new NumberFormatException();
     }
 
+    @Override
     public String getFileName() {
         return "";
     }

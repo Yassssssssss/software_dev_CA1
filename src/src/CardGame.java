@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -52,7 +53,7 @@ class CardGame {
             try {
                 numPlayers = inputs.getNumPlayers();
                 validNumber = true;
-            } catch(NumberFormatException e) {
+            } catch(NumberFormatException | InputMismatchException e) {
                 System.out.println("Please input a valid player number");
                 if (testing) break;
             }
@@ -198,6 +199,7 @@ class CardGame {
             Player p = (Player) gameRing.get(i);
             // Create new thread with an anonymous class
             Thread t = new Thread(new Runnable() {
+                @Override
                 public void run() {
                     while (winner == -1) {
                         try {

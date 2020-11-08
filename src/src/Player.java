@@ -93,6 +93,7 @@ class Player extends GameObject{
      * @param winner - The preference number(player number) of the winner
      * @throws IOException - Thrown by writeToFile function
      */
+    @Override
     public void writeEnd(int winner) throws IOException {
         String message;
         if (num == winner) message = "Player " + num + " wins";

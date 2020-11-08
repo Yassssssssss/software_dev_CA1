@@ -10,7 +10,7 @@ public class MockUserInputs implements UserInputsInterface{
     }
 
     @Override
-    public Integer getNumPlayers() {
+    public int getNumPlayers() {
         return numPlayers;
     }
 

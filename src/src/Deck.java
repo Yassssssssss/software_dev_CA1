@@ -52,6 +52,7 @@ class Deck extends GameObject {
      * @param winner - The player number of player that won
      * @throws IOException - Thrown by writeToFile function and resetFile
      */
+    @Override
     public void writeEnd(int winner) throws IOException{
         resetFile();
         writeToFile(String.format("Deck %d contents: %s", num, String.join(" ", cardsToStringList())));

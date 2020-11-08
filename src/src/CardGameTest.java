@@ -1,8 +1,8 @@
 package src;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -146,7 +146,7 @@ public class CardGameTest {
         ArrayList<GameObject> gameRing = (ArrayList<GameObject>) gameRingField.get(cardGame);
         Field number = GameObject.class.getDeclaredField("num");
         number.setAccessible(true);
-        for (GameObject obj: (ArrayList<GameObject>) gameRing) {
+        for (GameObject obj: gameRing) {
             int num = (int) number.get(obj);
             for (Card c: obj.getCards()) {
                 assertEquals(num, c.getValue());
@@ -161,7 +161,7 @@ public class CardGameTest {
         Method makeSingleMove = CardGame.class.getDeclaredMethod("makeSingleMove", Player.class);
         makeSingleMove.setAccessible(true);
 
-        CardGame testCardGame = new CardGame(new MockUserInputs(4, "4players.txt"));
+        CardGame testCardGame = new CardGame(new MockUserInputs(4, "test4players.txt"));
 
         Method dealCards = CardGame.class.getDeclaredMethod("dealCards");
         dealCards.setAccessible(true);
@@ -174,22 +174,22 @@ public class CardGameTest {
         makeSingleMove.invoke(testCardGame, (Player) gameRing.get(1));
 
         Deck expectedLeft = new Deck(1);
-        expectedLeft.addCard(new Card(6));
-        expectedLeft.addCard(new Card(5));
-        expectedLeft.addCard(new Card(5));
+        expectedLeft.addCard(new Card(1));
+        expectedLeft.addCard(new Card(1));
+        expectedLeft.addCard(new Card(1));
 
         Player expectedPlayer = new Player(1);
-        expectedPlayer.addCard(new Card(8));
-        expectedPlayer.addCard(new Card(4));
-        expectedPlayer.addCard(new Card(8));
-        expectedPlayer.addCard(new Card(6));
+        expectedPlayer.addCard(new Card(1));
+        expectedPlayer.addCard(new Card(1));
+        expectedPlayer.addCard(new Card(1));
+        expectedPlayer.addCard(new Card(1));
 
         Deck expectedRight = new Deck(2);
         expectedRight.addCard(new Card(3));
-        expectedRight.addCard(new Card(2));
-        expectedRight.addCard(new Card(1));
-        expectedRight.addCard(new Card(5));
-        expectedRight.addCard(new Card(7));
+        expectedRight.addCard(new Card(3));
+        expectedRight.addCard(new Card(3));
+        expectedRight.addCard(new Card(3));
+        expectedRight.addCard(new Card(3));
         
         assertTrue(String.format("Left Deck failed. Expected %s but got %s", expectedLeft.cardsToStringList().toString(), gameRing.get(0).cardsToStringList().toString()),
                    gameRing.get(0).isSame(expectedLeft));

@@ -10,7 +10,8 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({GameObjectTest.class, PlayerTest.class,
-               DeckTest.class, CardTest.class})
+               DeckTest.class, UserInputsTest.class,
+               CardTest.class, CardGameTest.class})
 public class TestSuite {
     public static String readFromFile(String fileName) {
         String data = "";

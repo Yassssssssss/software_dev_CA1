@@ -1,5 +1,6 @@
 package src;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -9,9 +10,16 @@ public class UserInputs implements UserInputsInterface{
     private Scanner sc = new Scanner(System.in);
 
     @Override
-    public Integer getNumPlayers() throws NumberFormatException {
+    public int getNumPlayers() throws NumberFormatException, InputMismatchException{
+        int num = -1;
         System.out.println("How many players");
-        int num = sc.nextInt();
+        try {
+            num = sc.nextInt();
+        } catch(Exception e) {
+            sc.next();
+            throw(e);
+        }
+        
         if (num <= 0) throw new NumberFormatException("Player number has to be positive");
         if (num > 2147483647/8) throw new NumberFormatException("Too many players");
         return num;

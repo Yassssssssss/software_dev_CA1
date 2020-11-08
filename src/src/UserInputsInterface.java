@@ -1,7 +1,7 @@
 package src;
 
 public interface UserInputsInterface {
-    public Integer getNumPlayers();
+    public int getNumPlayers();
     public String getFileName();
     public void closeScanner();
 }
