@@ -7,8 +7,6 @@ import java.io.IOException;
  * and to be added to the bottom.
  */
 class Deck extends GameObject {
-    private int num;
-
     /**
      * @param int - The deck number
      */

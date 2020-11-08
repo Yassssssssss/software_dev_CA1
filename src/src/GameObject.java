@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public abstract class GameObject {
     protected String fileName;
     protected volatile ArrayList<Card> cards = new ArrayList<Card>();
-    
+    protected int num;
 
     /** 
      * Adds a card to the top of cards list

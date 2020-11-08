@@ -13,6 +13,7 @@ public class UserInputs implements UserInputsInterface{
         System.out.println("How many players");
         int num = sc.nextInt();
         if (num <= 0) throw new NumberFormatException("Player number has to be positive");
+        if (num > 2147483647/8) throw new NumberFormatException("Too many players");
         return num;
     }
 

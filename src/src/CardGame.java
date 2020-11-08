@@ -27,41 +27,38 @@ class CardGame {
     private int winner = -1;
     
     /**
-     * Instatiates the card game. Gets the player number from user, validates it,
+     * Instatiates the card game. Gets valid player number,
      * generates the game ring and gets the valid pack file.
      */
     public CardGame(UserInputsInterface inputs) {
-        boolean validNumber = false;
-        while (!validNumber) {
-            try {
-                this.numPlayers = inputs.getNumPlayers();
-                validNumber = true;
-            } catch(NumberFormatException e) {
-                System.out.println("Please input a valid player number");
-            }
-        }
+        this.numPlayers = getNumPlayers(inputs, false);
         this.gameRing = generateRing();
-        this.cardList = getPackFromFile(inputs);
+        this.cardList = getPackFromFile(inputs, false);
         inputs.closeScanner();
     }
 
-
     /**
-     * Generates the ring of decks and players according to the number of players.
-     * The list contains alternating Deck and Player objects. The list is treated as a 
-     * circular list in the rest of the program.
+     * Gets player number from user. NumberFormatException is thrown from
+     * inputs.getNumPlayers() which acts as the validation.
      * 
-     * @return ArrayList<GameObject> - List of Deck and Player objects.
+     * @param inputs - The UserInputsInterface instance to use.
+     * 
+     *@return int - valid number of players
      */
-    private ArrayList<GameObject> generateRing() {
-        ArrayList<GameObject> ring = new ArrayList<GameObject>();
-        for (int i = 1; i < this.numPlayers + 1; i++) {
-            ring.add(new Deck(i));
-            ring.add(new Player(i));
+    private int getNumPlayers(UserInputsInterface inputs, boolean testing) {
+        int numPlayers = 0;
+        boolean validNumber = false;
+        while (!validNumber) {
+            try {
+                numPlayers = inputs.getNumPlayers();
+                validNumber = true;
+            } catch(NumberFormatException e) {
+                System.out.println("Please input a valid player number");
+                if (testing) break;
+            }
         }
-        return ring;
+        return numPlayers;
     }
-
 
     /**
      * Asks user for the pack filename and parses it into a list of Card objects.
@@ -70,9 +67,10 @@ class CardGame {
      * @param inputs - An object that implements UserInputsInterface.
      * @return ArrayList<Card> - A list of Card objects representing pack.
      */
-    private ArrayList<Card> getPackFromFile(UserInputsInterface inputs) {
+    private ArrayList<Card> getPackFromFile(UserInputsInterface inputs, boolean testing) {
         Boolean validFile = false;
         String fileName;
+        ArrayList<Card> cardList = new ArrayList<Card>();
         while (!validFile) {
             fileName = inputs.getFileName();
             try {
@@ -81,6 +79,7 @@ class CardGame {
                 validFile = true;
             } catch (FileNotFoundException | NumberFormatException | InvalidLengthException e) {
                 System.out.println("\nPlease input a valid file");
+                if (testing) break;
             }
         }
         return cardList;
@@ -97,7 +96,7 @@ class CardGame {
      * @throws FileNotFoundException
      * @throws NumberFormatException
      */
-    private ArrayList<Card> readFile(String fileName) throws FileNotFoundException, NumberFormatException{
+    private ArrayList<Card> readFile(String fileName) throws NumberFormatException, FileNotFoundException {
         ArrayList<Card> returnPack = new ArrayList<Card>();
         File file = new File(fileName);
         Scanner sc = new Scanner(file);
@@ -124,24 +123,46 @@ class CardGame {
 
 
     /**
+     * Generates the ring of decks and players according to the number of players.
+     * The list contains alternating Deck and Player objects. The list is treated as a 
+     * circular list in the rest of the program.
+     * 
+     * @return ArrayList<GameObject> - List of Deck and Player objects.
+     */
+    private ArrayList<GameObject> generateRing() {
+        ArrayList<GameObject> ring = new ArrayList<GameObject>();
+        for (int i = 1; i < this.numPlayers + 1; i++) {
+            ring.add(new Deck(i));
+            ring.add(new Player(i));
+        }
+        return ring;
+    }
+
+
+    /**
      * Deals 4 cards to Player classes and rest to Deck classes
      * Also writes all players' initial hand to their respective files.
      * Time complexity O(n).
      * 
-     * @throws IOException - Thrown by writeDeckToFile()
+     * @throws IOException - Thrown by writeInitialHand()
      */
     private void dealCards() throws IOException {
         for (int i = 0; i < cardList.size(); i++) {
             if (i < numPlayers * 4) {
                 // Distribute to players
-                ((Player) gameRing.get((i % numPlayers) * 2 + 1)).addCard(cardList.get(i));
+                gameRing.get((i % numPlayers) * 2 + 1).addCard(cardList.get(i));
             } else {
                 // Distribute to decks
-                ((Deck) gameRing.get((i % numPlayers) * 2)).addCard(cardList.get(i));
+                gameRing.get((i % numPlayers) * 2).addCard(cardList.get(i));
             }
         }
+        writeInitialHand();
+    }
 
-        // Write initial hand
+    /**
+     * Function to write all players' initial hand to their files
+     */
+    private void writeInitialHand() throws IOException {
         for (int i = 1; i < gameRing.size(); i += 2) {
             Player p = (Player) gameRing.get(i);
             p.writeDeckToFile();
@@ -220,7 +241,7 @@ class CardGame {
             FileWriter fileWriter = new FileWriter(fileName);
             PrintWriter printWriter = new PrintWriter(fileWriter);
             for (int i=0; i < numPlayers*8; i++){
-                int x = r.nextInt(numPlayers) + 1;
+                int x = r.nextInt(numPlayers*2) + 1;
                 printWriter.printf(Integer.toString(x) + "\n");
             }
             printWriter.close();
@@ -232,13 +253,13 @@ class CardGame {
 
     
     public static void main (String[] args) throws IOException{
-        // CardGame cardGame = new CardGame(new UserInputs());
-        // cardGame.dealCards();
-        // cardGame.startGame();
+        CardGame cardGame = new CardGame(new UserInputs());
+        cardGame.dealCards();
+        cardGame.startGame();
 
-        for (int i=0; i < 10; i++) {
-            CardGame.generatePackFile(i, String.format("pdeck_{}.txt", i));
-        }
-        CardGame.generatePackFile(2147483647, String.format("pdeck_2147483647.txt"));
+        // for (int i=1; i <= 10; i++) {
+        //     CardGame.generatePackFile(i, String.format("%dplayers.txt", i));
+        // }
+        // CardGame.generatePackFile(2000, String.format("2000players.txt"));
     }
 }

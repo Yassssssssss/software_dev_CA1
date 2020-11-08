@@ -8,14 +8,12 @@ import java.util.Random;
  * and writing to files.
  */
 class Player extends GameObject{
-    public int preference;
-
     /**
      * @param p - The player's preference
      */
     public Player(int p){
         this.fileName = "Player" + Integer.toString(p) + "_output.txt";
-        this.preference = p;
+        this.num = p;
     }
 
     /**
@@ -31,7 +29,7 @@ class Player extends GameObject{
                 return false;
             } 
         }
-        String message = "Player " + this.preference + " wins";
+        String message = "Player " + this.num + " wins";
         System.out.println(message);
         return true;
     }
@@ -51,7 +49,7 @@ class Player extends GameObject{
     public int makeMove(Deck left, Deck right, boolean testing) throws IOException{
         // If testing, don't check if player has won to allow for testing further down
         if(checkWon() && !testing){
-            return preference;
+            return num;
         }
         Random r = new Random();
         Card takenCard = left.popTop(); // Take from left
@@ -61,16 +59,16 @@ class Player extends GameObject{
         // and discard that card.
         // Could potentially induce an infinite loop
         Card discardCard = cards.get(r.nextInt(cards.size()));
-        while(discardCard.getValue() == this.preference){
+        while(discardCard.getValue() == num){
             discardCard = cards.get(r.nextInt(cards.size()));
         }
         right.addToBottom(discardCard); // Add discarded card to right deck
         cards.remove(discardCard); // Remove card from hand
         
         String message = String.format("Player %d draws a %d from deck %d \nPlayer %d discards a %d to deck %d \nPlayer %d current hand is %s", 
-                                       preference, takenCard.getValue(), left.getNumber(),
-                                       preference, discardCard.getValue(), right.getNumber(),
-                                       preference, String.join(" ", cardsToStringList()));
+                                       num, takenCard.getValue(), left.getNumber(),
+                                       num, discardCard.getValue(), right.getNumber(),
+                                       num, String.join(" ", cardsToStringList()));
 
         //System.out.println(message);
         writeToFile(message);
@@ -85,7 +83,7 @@ class Player extends GameObject{
      */
     public void writeDeckToFile() throws IOException{
         resetFile();
-        writeToFile("Player " + this.preference + " Initial hand: " + String.join(" ", cardsToStringList()));
+        writeToFile("Player " + num + " Initial hand: " + String.join(" ", cardsToStringList()));
     }
 
     
@@ -97,10 +95,10 @@ class Player extends GameObject{
      */
     public void writeEnd(int winner) throws IOException {
         String message;
-        if (preference == winner) message = "Player " + preference + " wins";
-        else message = String.format("Player %d has informed player %d that player %d has won", winner, preference, winner);
-        message += String.format("\nPlayer %d exits\n", preference);
-        message += String.format("Player %d hand: %s", preference, String.join(" ", cardsToStringList()));
+        if (num == winner) message = "Player " + num + " wins";
+        else message = String.format("Player %d has informed player %d that player %d has won", winner, num, winner);
+        message += String.format("\nPlayer %d exits\n", num);
+        message += String.format("Player %d hand: %s", num, String.join(" ", cardsToStringList()));
         writeToFile(message);
     }
 }

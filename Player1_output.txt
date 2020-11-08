@@ -1,4 +1,1 @@
 Player 1 Initial hand: 1 1 1 1
-Player 1 wins
-Player 1 exits
-Player 1 hand: 1 1 1 1

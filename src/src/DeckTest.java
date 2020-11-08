@@ -1,6 +1,7 @@
 package src;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -8,9 +9,7 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.IndexOutOfBoundsException;
-
-public class TestDeck {
+public class DeckTest {
     private Deck deck;
 
     @Before
@@ -19,13 +18,13 @@ public class TestDeck {
         for (int i=0; i<4; i++) deck.addCard(new Card(i));
     }
 
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test
     public void testPopTop() {
         assertTrue(new Card(3).isSame(deck.popTop()));
         assertTrue(new Card(2).isSame(deck.popTop()));
         assertTrue(new Card(1).isSame(deck.popTop()));
         assertTrue(new Card(0).isSame(deck.popTop()));
-        assertTrue(new Card(0).isSame(deck.popTop()));
+        assertThrows(IndexOutOfBoundsException.class, () -> new Card(0).isSame(deck.popTop()));
     }
 
     @Test

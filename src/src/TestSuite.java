@@ -9,8 +9,8 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({TestGameObject.class, TestPlayer.class,
-               TestDeck.class, TestCard.class})
+@SuiteClasses({GameObjectTest.class, PlayerTest.class,
+               DeckTest.class, CardTest.class})
 public class TestSuite {
     public static String readFromFile(String fileName) {
         String data = "";
