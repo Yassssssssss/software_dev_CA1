@@ -1,6 +1,7 @@
 package src;
 
 import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -9,6 +10,15 @@ import java.util.Scanner;
 public class UserInputs implements UserInputsInterface{
     private Scanner sc = new Scanner(System.in);
 
+    
+    /** 
+     * Gets the number of players from the user.
+     * Checks the number is not too big and the number is positive.
+     * 
+     * @return int - Number of players.
+     * @throws NumberFormatException - Thrown if number is too big or not positive.
+     * @throws InputMismatchException - Thrown if user inputs anything other than a number.
+     */
     @Override
     public int getNumPlayers() throws NumberFormatException, InputMismatchException{
         int num = -1;
@@ -25,8 +35,16 @@ public class UserInputs implements UserInputsInterface{
         return num;
     }
 
+    
+    /** 
+     * Gets the file name from the user. Spaces are not allowed in the file name.
+     * Also checks if the file name is not just a blank line.
+     * 
+     * @return String - File name.
+     * @throws NoSuchElementException - Thrown if a blank line is input.
+     */
     @Override
-    public String getFileName() {
+    public String getFileName() throws NoSuchElementException{
         System.out.println("Give file name");
         String returnstr = sc.next();
         return returnstr;

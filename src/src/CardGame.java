@@ -73,12 +73,12 @@ class CardGame {
         String fileName;
         ArrayList<Card> cardList = new ArrayList<Card>();
         while (!validFile) {
-            fileName = inputs.getFileName();
             try {
+                fileName = inputs.getFileName();
                 cardList = readFile(fileName); // Throws FileNotFoundException and NumberFormatException
                 validatePackLength(cardList); // Throws InvalidLengthException
                 validFile = true;
-            } catch (FileNotFoundException | NumberFormatException | InvalidLengthException e) {
+            } catch (InputMismatchException | FileNotFoundException | NumberFormatException | InvalidLengthException e) {
                 System.out.println("\nPlease input a valid file");
                 if (testing) break;
             }

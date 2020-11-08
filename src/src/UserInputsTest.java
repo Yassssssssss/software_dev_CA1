@@ -5,8 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayInputStream;
 import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 public class UserInputsTest {
     
@@ -28,9 +29,9 @@ public class UserInputsTest {
     @Test
     public void testGetFileName() {
         System.setIn(new ByteArrayInputStream("Biden won.txt".getBytes()));
-        assertEquals("Biden won.txt", new UserInputs().getFileName());
+        assertEquals("Biden", new UserInputs().getFileName());
         System.setIn(new ByteArrayInputStream(" ".getBytes()));
-        assertEquals(" ", new UserInputs().getFileName());
+        assertThrows(NoSuchElementException.class, () -> new UserInputs().getFileName());
         System.setIn(new ByteArrayInputStream("9834".getBytes()));
         assertEquals("9834", new UserInputs().getFileName());
     }
