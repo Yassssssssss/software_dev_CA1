@@ -13,6 +13,9 @@ import org.junit.runners.Suite.SuiteClasses;
                DeckTest.class, UserInputsTest.class,
                CardTest.class, CardGameTest.class})
 public class TestSuite {
+    /**
+     * Static method to read what's written in a file. Used only in testing classes.
+     */
     public static String readFromFile(String fileName) {
         String data = "";
         try {

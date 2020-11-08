@@ -28,7 +28,7 @@ public class DeckTest {
     }
 
     @Test
-    public void addToBottom() {
+    public void testAddToBottom() {
         deck.addToBottom(new Card(4));
         Deck expected = new Deck(1);
         for (int i=0; i<4; i++) expected.addCard(new Card(i));

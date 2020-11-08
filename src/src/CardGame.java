@@ -32,96 +32,11 @@ class CardGame {
      * generates the game ring and gets the valid pack file.
      */
     public CardGame(UserInputsInterface inputs) {
-        this.numPlayers = getNumPlayers(inputs, false);
+        this.numPlayers = inputs.getNumPlayers(false);
         this.gameRing = generateRing();
-        this.cardList = getPackFromFile(inputs, false);
+        this.cardList = inputs.getPack(numPlayers, false);
         inputs.closeScanner();
     }
-
-    /**
-     * Gets player number from user. NumberFormatException is thrown from
-     * inputs.getNumPlayers() which acts as the validation.
-     * 
-     * @param inputs - The UserInputsInterface instance to use.
-     * 
-     *@return int - valid number of players
-     */
-    private int getNumPlayers(UserInputsInterface inputs, boolean testing) {
-        int numPlayers = 0;
-        boolean validNumber = false;
-        while (!validNumber) {
-            try {
-                numPlayers = inputs.getNumPlayers();
-                validNumber = true;
-            } catch(NumberFormatException | InputMismatchException e) {
-                System.out.println("Please input a valid player number");
-                if (testing) break;
-            }
-        }
-        return numPlayers;
-    }
-
-    /**
-     * Asks user for the pack filename and parses it into a list of Card objects.
-     * Validation is also done.
-     * 
-     * @param inputs - An object that implements UserInputsInterface.
-     * @return ArrayList<Card> - A list of Card objects representing pack.
-     */
-    private ArrayList<Card> getPackFromFile(UserInputsInterface inputs, boolean testing) {
-        Boolean validFile = false;
-        String fileName;
-        ArrayList<Card> cardList = new ArrayList<Card>();
-        while (!validFile) {
-            try {
-                fileName = inputs.getFileName();
-                cardList = readFile(fileName); // Throws FileNotFoundException and NumberFormatException
-                validatePackLength(cardList); // Throws InvalidLengthException
-                validFile = true;
-            } catch (InputMismatchException | FileNotFoundException | NumberFormatException | InvalidLengthException e) {
-                System.out.println("\nPlease input a valid file");
-                if (testing) break;
-            }
-        }
-        return cardList;
-    }
-
-
-    /**
-     * Function for parsing a pack file. Also checks that a file exists and
-     * that file only contains numbers.
-     * 
-     * @param fileName - the name of the .txt file to read
-     * @return ArrayList<Card> - List of Card objects representing a pack. Not necessarily valid.
-     * 
-     * @throws FileNotFoundException
-     * @throws NumberFormatException
-     */
-    private ArrayList<Card> readFile(String fileName) throws NumberFormatException, FileNotFoundException {
-        ArrayList<Card> returnPack = new ArrayList<Card>();
-        File file = new File(fileName);
-        Scanner sc = new Scanner(file);
-        while (sc.hasNextLine()) {
-            returnPack.add(new Card(Integer.parseInt(sc.nextLine())));
-        }
-        sc.close();
-        return returnPack;
-    }
-
-
-    /**
-     * Checks the length of a pack.
-     * Throws InvalidLengthException when the length of pack is not 8*numPlayers
-     * 
-     * @param pack - A list representing a pack.
-     * @throws InvalidLengthException
-     */
-    private void validatePackLength(ArrayList<Card> pack) throws InvalidLengthException{
-        if (pack.size() != numPlayers * 8) {
-            throw new InvalidLengthException(String.format("Pack length should be %d but is %d.", numPlayers, pack.size()));
-        }
-    }
-
 
     /**
      * Generates the ring of decks and players according to the number of players.
