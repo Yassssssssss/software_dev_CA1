@@ -9,6 +9,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,13 +17,11 @@ import org.junit.Test;
 
 public class CardGameTest {
     private final MockUserInputs validMockInputs = new MockUserInputs(4, "4players_preferences.txt");
-    private CardGame cardGame;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
     @Before
     public void setUp() {
-        cardGame = new CardGame(validMockInputs);
         System.setOut(new PrintStream(outContent));
     }
 
@@ -40,6 +39,7 @@ public class CardGameTest {
     public void testDealCards() throws NoSuchMethodException, SecurityException, IllegalAccessException,
             IllegalArgumentException, InvocationTargetException, NoSuchFieldException {
         Method dealCards = CardGame.class.getDeclaredMethod("dealCards");
+        CardGame cardGame = new CardGame(validMockInputs);
         dealCards.setAccessible(true);
         dealCards.invoke(cardGame);
 
@@ -61,6 +61,8 @@ public class CardGameTest {
     @Test
     public void testMakeSingleMove() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
             NoSuchFieldException, SecurityException, NoSuchMethodException {
+        CardGame cardGame = new CardGame(validMockInputs);
+        
         Method makeSingleMove = CardGame.class.getDeclaredMethod("makeSingleMove", Player.class);
         makeSingleMove.setAccessible(true);
 
@@ -116,8 +118,8 @@ public class CardGameTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        assertEquals(-1, winner.get(testCardGame));
-        assertEquals(1, winner.get(cardGame));
+        assertEquals(1, ((AtomicInteger) winner.get(testCardGame)).get());
+        assertEquals(1, ((AtomicInteger) winner.get(cardGame)).get());
     }
 
     @Test
@@ -142,6 +144,6 @@ public class CardGameTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        assertEquals(1, winner.get(testCardGame));
+        assertEquals(1, ((AtomicInteger) winner.get(testCardGame)).get());
     }
 }

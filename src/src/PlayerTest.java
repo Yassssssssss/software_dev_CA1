@@ -1,6 +1,7 @@
 package src;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -27,9 +28,11 @@ public class PlayerTest {
     @Test
     public void testCheckWon() {
         for (int i=0; i<4; i++) player.addCard(new Card(1));
-        assertEquals(true, player.checkWon());
+        assertTrue(player.checkWon());
+        for (int i=0; i<13; i++) player.addCard(new Card(1));
+        assertTrue(player.checkWon());
         addFourCards();
-        assertEquals(false, player.checkWon());
+        assertFalse(player.checkWon());
     }
 
     
@@ -86,11 +89,12 @@ public class PlayerTest {
         addFourCards();
         try {
             player.writeDeckToFile();
+            new Player(29).writeDeckToFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String data = TestSuite.readFromFile("Player1_output.txt");
-        assertEquals("Player 1 Initial hand: 0 1 2 3", data);
+        assertEquals("Player 1 Initial hand: 0 1 2 3", TestSuite.readFromFile("Player1_output.txt"));
+        assertEquals("Player 29 Initial hand: ", TestSuite.readFromFile("Player29_output.txt"));
     }
 
     

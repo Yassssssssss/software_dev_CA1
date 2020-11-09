@@ -24,7 +24,7 @@ class Player extends GameObject{
      */
     public boolean checkWon() {
         int checkCard = cards.get(0).getValue();
-        for(Card c : cards){
+        for(Card c: cards){
             if(c.getValue() != checkCard) {
                 return false;
             } 
@@ -48,9 +48,8 @@ class Player extends GameObject{
      */
     public int makeMove(Deck left, Deck right, boolean testing) throws IOException{
         // If testing, don't check if player has won to allow for testing further down
-        if(checkWon() && !testing){
-            return num;
-        }
+        if(checkWon() && !testing) return num;
+        
         Random r = new Random();
         Card takenCard = left.popTop(); // Take from left
         cards.add(takenCard); // Add to own hand
@@ -69,9 +68,10 @@ class Player extends GameObject{
                                        num, takenCard.getValue(), left.getNumber(),
                                        num, discardCard.getValue(), right.getNumber(),
                                        num, String.join(" ", cardsToStringList()));
-
         //System.out.println(message);
         writeToFile(message);
+        // If testing, don't check if player has won to allow for testing further down
+        if(checkWon()) return num;
         return -1;
     }
 

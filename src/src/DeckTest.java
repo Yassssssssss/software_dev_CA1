@@ -40,11 +40,17 @@ public class DeckTest {
     public void testWriteEnd() {
         try {
             deck.writeEnd(1);
+            new Deck(2147483647).writeEnd(-2147483648);
+            Deck tDeck = new Deck(-2147483648);
+            tDeck.addCard(new Card(2147483647));
+            tDeck.addToBottom(new Card(-2147483648));
+            tDeck.writeEnd(2147483647);
         } catch (IOException e){
             e.printStackTrace();
         }
 
-        String data = TestSuite.readFromFile("Deck1_output.txt");
-        assertEquals("Deck 1 contents: 0 1 2 3", data);
+        assertEquals("Deck 1 contents: 0 1 2 3", TestSuite.readFromFile("Deck1_output.txt"));
+        assertEquals("Deck 2147483647 contents: ", TestSuite.readFromFile("Deck2147483647_output.txt"));
+        assertEquals("Deck -2147483648 contents: -2147483648 2147483647", TestSuite.readFromFile("Deck-2147483648_output.txt"));
     }
 }

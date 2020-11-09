@@ -36,6 +36,14 @@ public class GameObjectTest {
         assertTrue(testObj.isSame(gameObj));
         testObj.addCard(new Card(0));
         assertFalse(testObj.isSame(gameObj));
+        testObj.addCard(new Card(-2147483648));
+        gameObj.addCard(new Card(0));
+        gameObj.addCard(new Card(-2147483648));
+        assertTrue(testObj.isSame(gameObj));
+        testObj.addCard(new Card(0));
+        testObj.addCard(new Card(2147483647));
+        gameObj.addCard(new Card(2147483647)); 
+        assertFalse(testObj.isSame(gameObj));
     }
 
     @Test

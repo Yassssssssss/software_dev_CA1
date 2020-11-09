@@ -1,7 +1,7 @@
 package src;
 
 public class Card {
-    private int value;
+    private final int value;
 
     public Card(int x){
         this.value = x;
@@ -18,6 +18,6 @@ public class Card {
      * @return - true if same, false if not.
      */
     public boolean isSame(Card card) {
-        return card.getValue() == this.value;
+        return card.getValue() == value;
     }
 }

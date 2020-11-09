@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Implements methods for the card game. Stores all the players, decks necessary.
@@ -21,7 +22,7 @@ class CardGame {
     private ArrayList<Card> cardList;
 
     // -1 can be used to represent nobody winning since player number will never be negative.
-    private int winner = -1;
+    private AtomicInteger winner = new AtomicInteger(-1);
     
     /**
      * Instatiates the card game. Gets valid player number,
@@ -93,13 +94,13 @@ class CardGame {
      * @throws IOException - Thrown by endGame()
      */
     private synchronized void makeSingleMove(Player player) throws IOException {
-        if (winner != -1) return;// Check no one has has after this method got scheduled.
+        if (winner.get() != -1) return;
         int index = gameRing.indexOf(player);
         Deck leftDeck = (Deck) gameRing.get(index - 1);
         Deck rightDeck = (Deck) gameRing.get((index + 1) % gameRing.size());
         if (leftDeck.getCards().size() > 0) {
-            this.winner = player.makeMove(leftDeck, rightDeck, false); // Returns player's preference if player has won
-            if (this.winner != -1) endGame(); // Call the endGame() method with the thread running this method.
+            this.winner.set(player.makeMove(leftDeck, rightDeck, false)); // Returns player's preference if player has won
+            if (this.winner.get() != -1) endGame(); // Call the endGame() method with the thread running this method.
         }
     }
 
@@ -114,7 +115,7 @@ class CardGame {
             Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    while (winner == -1) {
+                    while (winner.get() == -1) {
                         try {
                             makeSingleMove(p);
                         } catch (IOException e) {
@@ -135,7 +136,7 @@ class CardGame {
     private void endGame() {
         for (GameObject obj: gameRing) {
             try {
-                obj.writeEnd(winner);
+                obj.writeEnd(winner.get());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -171,6 +172,6 @@ class CardGame {
         cardGame.dealCards();
         cardGame.startGame();
 
-        generatePackFile(5, "5 players.txt");
+        // generatePackFile(5, "5 players.txt");
     }
 }

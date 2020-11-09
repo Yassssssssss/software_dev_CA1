@@ -26,7 +26,6 @@ public abstract class GameObject {
         cards.add(card);
     }
     
-
     /** 
      * Checks if another instance of a Gameobject has the same
      * list of cards(by value). The order matters.
