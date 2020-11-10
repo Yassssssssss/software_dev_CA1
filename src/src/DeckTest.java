@@ -37,6 +37,11 @@ public class DeckTest {
     }
 
     @Test
+    public void testGetNumber(){
+        assertEquals(1, deck.getNumber());
+    }
+
+    @Test
     public void testWriteEnd() {
         try {
             deck.writeEnd(1);
