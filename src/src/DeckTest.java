@@ -14,6 +14,7 @@ public class DeckTest {
 
     @Before
     public void setup() {
+        // Makes a deck containing 0, 1, 2, 3
         deck = new Deck(1);
         for (int i=0; i<4; i++) deck.addCard(new Card(i));
     }

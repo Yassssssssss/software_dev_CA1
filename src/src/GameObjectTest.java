@@ -16,6 +16,7 @@ public class GameObjectTest {
 
     @Before
     public void setup() {
+        // Sets up a game object containing cars 0, 1, 2, 3
         gameObj = new ConcreteGameObj();
         for (int i=0; i<4; i++) gameObj.addCard(new Card(i));
     }
@@ -63,7 +64,7 @@ public class GameObjectTest {
     @Test
     public void testResetAndWriteToFile() {
         try{
-            // Tests different types of writeToFile()
+            // Tests if writeToFile() can write obscure characters as well as write to many files
             gameObj.resetFile();
             gameObj.writeToFile("testing...1234 \n I&*^!");
             assertEquals("testing...1234  I&*^!", TestSuite.readFromFile("test.txt"));
