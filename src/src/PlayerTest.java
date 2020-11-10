@@ -98,9 +98,6 @@ public class PlayerTest {
     }
 
     
-    /** 
-     * @throws IOException
-     */
     @Test
     public void testWriteEnd() {
         // Winning case (Actual hands doesn't matter)
