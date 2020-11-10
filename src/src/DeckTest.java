@@ -29,6 +29,8 @@ public class DeckTest {
 
     @Test
     public void testAddToBottom() {
+        // Adds a card to the bottm of deck then builds another deck in the same way
+        // and tests if they are the same
         deck.addToBottom(new Card(4));
         Deck expected = new Deck(1);
         for (int i=0; i<4; i++) expected.addCard(new Card(i));
@@ -53,7 +55,6 @@ public class DeckTest {
         } catch (IOException e){
             e.printStackTrace();
         }
-
         assertEquals("Deck 1 contents: 0 1 2 3", TestSuite.readFromFile("Deck1_output.txt"));
         assertEquals("Deck 2147483647 contents: ", TestSuite.readFromFile("Deck2147483647_output.txt"));
         assertEquals("Deck -2147483648 contents: -2147483648 2147483647", TestSuite.readFromFile("Deck-2147483648_output.txt"));

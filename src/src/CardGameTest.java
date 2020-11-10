@@ -58,6 +58,7 @@ public class CardGameTest {
         }
     }
 
+    
     @Test
     public void testMakeSingleMove() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
             NoSuchFieldException, SecurityException, NoSuchMethodException {
