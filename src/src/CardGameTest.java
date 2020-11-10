@@ -38,11 +38,12 @@ public class CardGameTest {
     @Test
     public void testDealCards() throws NoSuchMethodException, SecurityException, IllegalAccessException,
             IllegalArgumentException, InvocationTargetException, NoSuchFieldException {
+        // Gets private methods dealCards
         Method dealCards = CardGame.class.getDeclaredMethod("dealCards");
         CardGame cardGame = new CardGame(validMockInputs);
         dealCards.setAccessible(true);
         dealCards.invoke(cardGame);
-
+        // Gets priavte field gameRing
         Field gameRingField = CardGame.class.getDeclaredField("gameRing");
         gameRingField.setAccessible(true);
         ArrayList<GameObject> gameRing = (ArrayList<GameObject>) gameRingField.get(cardGame);
@@ -63,22 +64,23 @@ public class CardGameTest {
     public void testMakeSingleMove() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
             NoSuchFieldException, SecurityException, NoSuchMethodException {
         CardGame cardGame = new CardGame(validMockInputs);
-        
+        // Gets the private method makeSingleMove
         Method makeSingleMove = CardGame.class.getDeclaredMethod("makeSingleMove", Player.class);
         makeSingleMove.setAccessible(true);
 
         CardGame testCardGame = new CardGame(new MockUserInputs(4, "test4players.txt"));
-
+        // Gets the private method dealCards
         Method dealCards = CardGame.class.getDeclaredMethod("dealCards");
         dealCards.setAccessible(true);
         dealCards.invoke(testCardGame);
-
+        // Gets priavte field gameRing
         Field gameRingField = CardGame.class.getDeclaredField("gameRing");
         gameRingField.setAccessible(true);
         ArrayList<GameObject> gameRing = (ArrayList<GameObject>) gameRingField.get(testCardGame);
 
         makeSingleMove.invoke(testCardGame, (Player) gameRing.get(1));
 
+        // Makes the expected Deck and Player classes
         Deck expectedLeft = new Deck(1);
         expectedLeft.addCard(new Card(1));
         expectedLeft.addCard(new Card(1));
@@ -126,17 +128,18 @@ public class CardGameTest {
     @Test
     public void testStartGame() throws NoSuchMethodException, SecurityException, IllegalAccessException,
             IllegalArgumentException, InvocationTargetException, NoSuchFieldException {
+        // Gets the private method dealCards
         Method dealCards = CardGame.class.getDeclaredMethod("dealCards");
 
         CardGame testCardGame = new CardGame(new MockUserInputs(4, "4players_p1win.txt"));
 
         dealCards.setAccessible(true);
         dealCards.invoke(testCardGame);
-
+        // Gets the private method startGame
         Method startGame = CardGame.class.getDeclaredMethod("startGame");
         startGame.setAccessible(true);
         startGame.invoke(testCardGame);
-
+        // Gets the private field winner
         Field winner = CardGame.class.getDeclaredField("winner");
         winner.setAccessible(true);
 

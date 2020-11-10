@@ -63,6 +63,7 @@ public class GameObjectTest {
     @Test
     public void testResetAndWriteToFile() {
         try{
+            // Tests different types of writeToFile()
             gameObj.resetFile();
             gameObj.writeToFile("testing...1234 \n I&*^!");
             assertEquals("testing...1234  I&*^!", TestSuite.readFromFile("test.txt"));

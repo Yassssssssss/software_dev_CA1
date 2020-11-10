@@ -45,6 +45,7 @@ public class DeckTest {
 
     @Test
     public void testWriteEnd() {
+        // Tests different types of writeEnd() to different files
         try {
             deck.writeEnd(1);
             new Deck(2147483647).writeEnd(-2147483648);
