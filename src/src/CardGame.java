@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * cardList - The pack. A list of Card objects.
  * winner - The player number for the player that has won. Set to -1 while no one has won.
  */
-class CardGame {
+public class CardGame {
     private int numPlayers;
     private ArrayList<GameObject> gameRing;
     private ArrayList<Card> cardList;

@@ -1,4 +1,4 @@
-package src;
+package tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -10,6 +10,10 @@ import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import src.Card;
+import src.ConcreteGameObj;
+import src.GameObject;
 
 public class GameObjectTest {
     GameObject gameObj;

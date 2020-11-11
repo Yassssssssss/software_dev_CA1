@@ -6,7 +6,7 @@ import java.io.IOException;
  * A deck class that allows cards to be removed from top of deck
  * and to be added to the bottom.
  */
-class Deck extends GameObject {
+public class Deck extends GameObject {
     /**
      * @param int - The deck number
      */

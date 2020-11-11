@@ -7,7 +7,7 @@ import java.util.Random;
  * A player class that handles each move a player makes
  * and writing to files.
  */
-class Player extends GameObject{
+public class Player extends GameObject{
     /**
      * @param p - The player's preference
      */

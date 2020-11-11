@@ -1,4 +1,4 @@
-package src;
+package tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import src.Card;
+import src.UserInputs;
 
 public class UserInputsTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -115,6 +118,7 @@ public class UserInputsTest {
             }
         }
         // Valid inputs
+        @SuppressWarnings("unchecked")
         ArrayList<Card> actualPack = (ArrayList<Card>) readFile.invoke(new UserInputs(), "4players_preferences.txt");
         for (int i = 0; i < expectedPack.size(); i++) {
             assertTrue(expectedPack.get(i).isSame(actualPack.get(i)));

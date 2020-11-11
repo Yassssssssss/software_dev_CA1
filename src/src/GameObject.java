@@ -62,7 +62,7 @@ public abstract class GameObject {
      * Wipes file.
      * @throws IOException - Thrown by FileWriter
      */
-    protected void resetFile() throws IOException {
+    public void resetFile() throws IOException {
         FileWriter fileWriter = new FileWriter(this.fileName);
         fileWriter.close();
     }
@@ -74,7 +74,7 @@ public abstract class GameObject {
      * @param s - Message to write
      * @throws IOException - Thrown by FileWriter
      */
-    protected void writeToFile(String s) throws IOException{
+    public void writeToFile(String s) throws IOException{
         FileWriter fileWriter = new FileWriter(this.fileName, true);
         PrintWriter printWriter = new PrintWriter(fileWriter);
         printWriter.printf(s + "\n");

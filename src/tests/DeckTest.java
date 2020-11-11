@@ -1,4 +1,4 @@
-package src;
+package tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -8,6 +8,9 @@ import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import src.Card;
+import src.Deck;
 
 public class DeckTest {
     private Deck deck;

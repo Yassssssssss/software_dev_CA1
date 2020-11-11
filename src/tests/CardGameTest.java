@@ -1,4 +1,4 @@
-package src;
+package tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -14,6 +14,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import src.Card;
+import src.GameObject;
+import src.MockUserInputs;
+import src.CardGame;
+import src.Player;
+import src.Deck;
 
 public class CardGameTest {
     private final MockUserInputs validMockInputs = new MockUserInputs(4, "4players_preferences.txt");
@@ -43,9 +50,10 @@ public class CardGameTest {
         CardGame cardGame = new CardGame(validMockInputs);
         dealCards.setAccessible(true);
         dealCards.invoke(cardGame);
-        // Gets priavte field gameRing
+        // Gets private field gameRing
         Field gameRingField = CardGame.class.getDeclaredField("gameRing");
         gameRingField.setAccessible(true);
+        @SuppressWarnings("unchecked")
         ArrayList<GameObject> gameRing = (ArrayList<GameObject>) gameRingField.get(cardGame);
         Field number = GameObject.class.getDeclaredField("num");
         number.setAccessible(true);
@@ -73,9 +81,10 @@ public class CardGameTest {
         Method dealCards = CardGame.class.getDeclaredMethod("dealCards");
         dealCards.setAccessible(true);
         dealCards.invoke(testCardGame);
-        // Gets priavte field gameRing
+        // Gets private field gameRing
         Field gameRingField = CardGame.class.getDeclaredField("gameRing");
         gameRingField.setAccessible(true);
+        @SuppressWarnings("unchecked")
         ArrayList<GameObject> gameRing = (ArrayList<GameObject>) gameRingField.get(testCardGame);
 
         makeSingleMove.invoke(testCardGame, (Player) gameRing.get(1));
@@ -109,6 +118,7 @@ public class CardGameTest {
                 expectedRight.cardsToStringList().toString(), gameRing.get(2).cardsToStringList().toString()),
                 gameRing.get(2).isSame(expectedRight));
 
+        @SuppressWarnings("unchecked")
         ArrayList<GameObject> gameRing2 = (ArrayList<GameObject>) gameRingField.get(cardGame);
         dealCards.invoke(cardGame);
         makeSingleMove.invoke(cardGame, (Player) gameRing2.get(1));

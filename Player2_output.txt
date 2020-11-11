@@ -1,1 +1,28 @@
-Player 2 Initial hand: 2 2 2 2
+Player 2 Initial hand: 7 3 3 4
+Player 2 draws a 1 from deck 2 
+Player 2 discards a 3 to deck 3 
+Player 2 current hand is 7 3 4 1
+Player 2 draws a 5 from deck 2 
+Player 2 discards a 4 to deck 3 
+Player 2 current hand is 7 3 1 5
+Player 2 draws a 1 from deck 2 
+Player 2 discards a 1 to deck 3 
+Player 2 current hand is 7 3 1 5
+Player 2 draws a 2 from deck 2 
+Player 2 discards a 7 to deck 3 
+Player 2 current hand is 3 1 5 2
+Player 2 draws a 3 from deck 2 
+Player 2 discards a 3 to deck 3 
+Player 2 current hand is 1 5 2 3
+Player 2 draws a 8 from deck 2 
+Player 2 discards a 5 to deck 3 
+Player 2 current hand is 1 2 3 8
+Player 2 draws a 5 from deck 2 
+Player 2 discards a 3 to deck 3 
+Player 2 current hand is 1 2 8 5
+Player 2 draws a 3 from deck 2 
+Player 2 discards a 3 to deck 3 
+Player 2 current hand is 1 2 8 5
+Player 3 has informed player 2 that player 3 has won
+Player 2 exits
+Player 2 hand: 1 2 8 5
